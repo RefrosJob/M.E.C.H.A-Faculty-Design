@@ -44,6 +44,5 @@ func _on_nav_mesh_child_entered_tree(node):
 func _on_game_api_ready():
 	$GameApi.set_navmesh(navmesh)
 
-
 func _on_nav_mesh_ready():
 	self.navmesh = %NavMesh

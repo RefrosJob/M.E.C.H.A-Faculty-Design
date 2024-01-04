@@ -35,24 +35,6 @@ disable_mode = 2
 
 [node name="EntityPc" parent="NavMesh" instance=ExtResource("5_n3qaa")]
 
-[node name="NavMesh" type="NavigationRegion2D" parent="NavMesh"]
-show_behind_parent = true
-position = Vector2(13, 24)
-navigation_polygon = SubResource("NavigationPolygon_bhxb0")
-use_edge_connections = false
-enter_cost = 1.0
-script = ExtResource("2_2glxt")
-
-[node name="ObstructionObject" parent="NavMesh/NavMesh" instance=ExtResource("4_0muv0")]
-position = Vector2(431, 153)
-disable_mode = 2
-
-[node name="ObstructionObject2" parent="NavMesh/NavMesh" instance=ExtResource("4_0muv0")]
-position = Vector2(849, 151)
-disable_mode = 2
-
-[node name="EntityPc" parent="NavMesh/NavMesh" instance=ExtResource("5_n3qaa")]
-
 [node name="GameApi" parent="." instance=ExtResource("6_kn8mf")]
 
 [node name="LogicTimer" type="Timer" parent="."]
@@ -64,7 +46,5 @@ script = ExtResource("7_a1x18")
 [connection signal="mouse_click_movement" from="." to="NavMesh/EntityPc" method="_on_map_01_mouse_click_movement"]
 [connection signal="child_entered_tree" from="NavMesh" to="." method="_on_nav_mesh_child_entered_tree"]
 [connection signal="ready" from="NavMesh" to="." method="_on_nav_mesh_ready"]
-[connection signal="child_entered_tree" from="NavMesh/NavMesh" to="." method="_on_nav_mesh_child_entered_tree"]
-[connection signal="ready" from="NavMesh/NavMesh" to="." method="_on_nav_mesh_ready"]
 [connection signal="ready" from="GameApi" to="." method="_on_game_api_ready"]
 [connection signal="timeout" from="LogicTimer" to="GameApi" method="_on_logic_timer_timeout"]
