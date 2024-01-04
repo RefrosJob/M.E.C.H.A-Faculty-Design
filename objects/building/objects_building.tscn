@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=3 uid="uid://om0obryqdrbi"]
+
+[ext_resource type="Script" path="res://objects/building/objects_building.gd" id="1_citfm"]
+
+[node name="ObstructionObject" type="StaticBody2D"]
+position = Vector2(275, 139)
+script = ExtResource("1_citfm")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -165.0
+offset_top = -56.0
+offset_right = 164.0
+offset_bottom = 58.0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2(2.09344, -0.565814)
+scale = Vector2(1.18693, 1.37721)
+polygon = PackedVector2Array(137.251, -40.9771, 137.251, 43.251, -141.621, 43.9771, -141.621, -40.9771)
+
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="."]
+vertices = PackedVector2Array(-164, -55, -164, 58, 163, 58, 163, -55)

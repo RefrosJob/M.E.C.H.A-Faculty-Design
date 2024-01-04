@@ -1,0 +1,77 @@
+[gd_scene load_steps=5 format=3 uid="uid://dxxssme6qvrri"]
+
+[ext_resource type="Script" path="res://game/renderer/game_renderer.gd" id="1_wpt8d"]
+[ext_resource type="PackedScene" uid="uid://bhd36jeeaexqw" path="res://HUD/hud.tscn" id="2_xhlvm"]
+[ext_resource type="Texture2D" uid="uid://cf85yieyg48jv" path="res://assets/HUD/hud_panel_left.png" id="3_pbcn8"]
+[ext_resource type="Texture2D" uid="uid://bvu7ll1mjn8v4" path="res://assets/HUD/hud_panel_bottom.png" id="4_1uq5s"]
+
+[node name="GameRenderer" type="Node"]
+script = ExtResource("1_wpt8d")
+
+[node name="HUD" parent="." instance=ExtResource("2_xhlvm")]
+visible = false
+
+[node name="HUDPanelLeft" type="HBoxContainer" parent="HUD"]
+layout_mode = 2
+focus_mode = 1
+
+[node name="Margin" type="MarginContainer" parent="HUD/HUDPanelLeft"]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+focus_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HUD/HUDPanelLeft/Margin"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_right = 12
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HUD/HUDPanelLeft/Margin/MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Button" type="Button" parent="HUD/HUDPanelLeft/Margin/MarginContainer/VBoxContainer2"]
+z_index = 110
+layout_mode = 2
+text = "TEST"
+
+[node name="TextureRect" type="TextureRect" parent="HUD/HUDPanelLeft/Margin"]
+z_index = 100
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("3_pbcn8")
+expand_mode = 3
+stretch_mode = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/HUDPanelLeft"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 2
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="HUD/HUDPanelLeft/VBoxContainer"]
+layout_mode = 2
+
+[node name="SubViewport" type="SubViewport" parent="HUD/HUDPanelLeft/VBoxContainer/SubViewportContainer"]
+unique_name_in_owner = true
+handle_input_locally = false
+size = Vector2i(962, 457)
+size_2d_override = Vector2i(1150, 650)
+size_2d_override_stretch = true
+render_target_update_mode = 0
+
+[node name="Control" type="Control" parent="HUD/HUDPanelLeft/VBoxContainer"]
+custom_minimum_size = Vector2(0, 184)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="HUD/HUDPanelLeft/VBoxContainer/Control"]
+z_index = 90
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("4_1uq5s")
+expand_mode = 3
+
+[connection signal="pressed" from="HUD/HUDPanelLeft/Margin/MarginContainer/VBoxContainer2/Button" to="." method="_on_button_pressed"]

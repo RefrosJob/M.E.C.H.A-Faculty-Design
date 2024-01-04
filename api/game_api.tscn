@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://djytndftcavnt"]
+
+[ext_resource type="Script" path="res://navigation/maps/map_01/GameApi.gd" id="1_keuve"]
+[ext_resource type="Script" path="res://navigation/maps/map_01/Node.gd" id="2_0yttd"]
+[ext_resource type="Script" path="res://navigation/maps/map_01/CommandTranslation.gd" id="3_l688f"]
+
+[node name="GameApi" type="HTTPRequest"]
+use_threads = true
+script = ExtResource("1_keuve")
+
+[node name="WorldData" type="Node" parent="."]
+script = ExtResource("2_0yttd")
+
+[node name="CommandTranslation" type="Node" parent="."]
+script = ExtResource("3_l688f")
+
+[connection signal="new_command_signal" from="." to="CommandTranslation" method="_on_game_api_new_command_signal"]
+[connection signal="request_completed" from="." to="." method="_on_request_completed"]
