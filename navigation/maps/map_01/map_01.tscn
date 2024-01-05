@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://navigation/maps/map_01/map_01.gd" id="1_k7kwh"]
 [ext_resource type="Script" path="res://navigation/maps/map_01/navmesh.gd" id="2_2glxt"]
 [ext_resource type="PackedScene" uid="uid://bxdb0ix3c5ajr" path="res://objects/obstruction_object.tscn" id="4_0muv0"]
-[ext_resource type="PackedScene" uid="uid://dfqaiavw35img" path="res://entities/pc/entity_pc.tscn" id="5_n3qaa"]
+[ext_resource type="PackedScene" uid="uid://jrqogsnwupmq" path="res://entities/pc/mech/entity_pc_mech.tscn" id="4_52hvb"]
 [ext_resource type="PackedScene" uid="uid://djytndftcavnt" path="res://api/game_api.tscn" id="6_kn8mf"]
 [ext_resource type="Script" path="res://navigation/maps/map_01/OLD CODE.gd" id="7_a1x18"]
 
@@ -33,7 +33,8 @@ disable_mode = 2
 position = Vector2(849, 151)
 disable_mode = 2
 
-[node name="EntityPc" parent="NavMesh" instance=ExtResource("5_n3qaa")]
+[node name="EntityPcMech" parent="NavMesh" instance=ExtResource("4_52hvb")]
+position = Vector2(565, 503)
 
 [node name="GameApi" parent="." instance=ExtResource("6_kn8mf")]
 
@@ -43,7 +44,6 @@ autostart = true
 [node name="OLD CODE" type="Node" parent="."]
 script = ExtResource("7_a1x18")
 
-[connection signal="mouse_click_movement" from="." to="NavMesh/EntityPc" method="_on_map_01_mouse_click_movement"]
 [connection signal="child_entered_tree" from="NavMesh" to="." method="_on_nav_mesh_child_entered_tree"]
 [connection signal="ready" from="NavMesh" to="." method="_on_nav_mesh_ready"]
 [connection signal="ready" from="GameApi" to="." method="_on_game_api_ready"]
