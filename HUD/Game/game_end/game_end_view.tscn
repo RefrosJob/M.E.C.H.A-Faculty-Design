@@ -1,0 +1,70 @@
+[gd_scene load_steps=2 format=3 uid="uid://crup63kwkagd4"]
+
+[ext_resource type="Script" path="res://HUD/Game/game_end/game_end_view.gd" id="1_1t5rd"]
+
+[node name="GameEndView" type="MarginContainer"]
+clip_contents = true
+offset_left = 15.0
+offset_top = 30.0
+offset_right = 283.0
+offset_bottom = 226.0
+mouse_filter = 2
+script = ExtResource("1_1t5rd")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 2
+color = Color(0, 0, 0, 0.317647)
+
+[node name="GameEndMarginContainer" type="MarginContainer" parent="."]
+clip_contents = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 10
+
+[node name="GameEndContainer" type="VBoxContainer" parent="GameEndMarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 25
+
+[node name="GameResult" type="Label" parent="GameEndMarginContainer/GameEndContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "VICTORY / LOSE"
+horizontal_alignment = 1
+
+[node name="TimeContainer" type="HBoxContainer" parent="GameEndMarginContainer/GameEndContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="TimeLabel" type="Label" parent="GameEndMarginContainer/GameEndContainer/TimeContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Time: "
+horizontal_alignment = 1
+
+[node name="TimeValue" type="Label" parent="GameEndMarginContainer/GameEndContainer/TimeContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "13:32:33"
+horizontal_alignment = 1
+
+[node name="FillerContainer" type="MarginContainer" parent="GameEndMarginContainer/GameEndContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ButtonContainer" type="HBoxContainer" parent="GameEndMarginContainer/GameEndContainer"]
+layout_mode = 2
+mouse_filter = 2
+alignment = 1
+
+[node name="BackToMenu" type="Button" parent="GameEndMarginContainer/GameEndContainer/ButtonContainer"]
+light_mask = 7
+visibility_layer = 7
+layout_mode = 2
+text = "Back To Menu"
+
+[connection signal="focus_entered" from="GameEndMarginContainer/GameEndContainer/ButtonContainer/BackToMenu" to="." method="_on_back_to_menu_focus_entered"]
+[connection signal="pressed" from="GameEndMarginContainer/GameEndContainer/ButtonContainer/BackToMenu" to="." method="_on_back_to_menu_pressed"]

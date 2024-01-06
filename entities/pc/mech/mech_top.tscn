@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://ccfb8qndisdmh"]
+
+[ext_resource type="Texture2D" uid="uid://cpahqiw6tpt4r" path="res://assets/entities/mech/mech.png" id="1_geca0"]
+[ext_resource type="Script" path="res://entities/pc/mech/mech_top.gd" id="1_hmv3f"]
+[ext_resource type="PackedScene" uid="uid://d2y5c2gqbffyq" path="res://entities/properties/weapons/autocannon.tscn" id="2_un2mq"]
+
+[node name="MechTop" type="Node2D"]
+position = Vector2(0, 7)
+script = ExtResource("1_hmv3f")
+
+[node name="MechBody" type="Sprite2D" parent="."]
+z_index = 3
+rotation = -1.57079
+scale = Vector2(0.0774431, 0.0771986)
+texture = ExtResource("1_geca0")
+
+[node name="AutoCannon" parent="MechBody" instance=ExtResource("2_un2mq")]
+z_index = 1
+position = Vector2(-322.817, 142.492)
+rotation = 3.14158
+scale = Vector2(5.91249, 4.96123)
+
+[node name="AutoCannon2" parent="MechBody" instance=ExtResource("2_un2mq")]
+z_index = 1
+position = Vector2(348.644, 142.488)
+rotation = 3.14158
+scale = Vector2(5.91249, 4.96123)

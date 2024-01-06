@@ -11,11 +11,12 @@ script/source = "extends CharacterBody2D
 @export var aiming_speed: float = PI
 
 @onready var rect = $CollisionShape2D.shape.get_rect()
+@onready var autocannon = $AutoCannon
 @onready var mech_base = $MechBase
 
 var type: String = 'mech'
-var is_player_controlled: bool = true
 
+var _is_player_controlled: bool = true
 var _movement_target_position: Vector2;
 var _face_target_direction: Vector2;
 var _is_manually_aiming: bool = false
@@ -25,26 +26,21 @@ signal shoot_cannon
 func _ready():
 	if movement_speed == 0:
 		movement_speed = 300
-
+	pass
+	
 func _physics_process(delta):
 	var collision = move_and_collide(velocity * delta)
 	rotate_to(self, _movement_target_position, delta)
 	mech_base.play_walking_animation()
-	if _is_manually_aiming != true:
-		_face_target_direction = _movement_target_position
-	face($MechTop, _face_target_direction, delta)
 	if collision || global_position.distance_to(_movement_target_position) < rect.size.x * 0.2:
-		if collision && collision.get_collider().has_method('_goto_condition_met'):
-			collision.get_collider()._goto_condition_met()
 		mech_base.pause_walking_animation()
 		velocity = Vector2(0, 0)
-		
-func get_type():
-	return self.type
+	if (_is_manually_aiming):
+		face($MechTop, _face_target_direction, delta)
+	else:
+		face($MechTop, _movement_target_position, delta)
 	
-func get_is_player_controlled():
-	return self.is_player_controlled
-
+	
 func face(node, target, delta):
 	var vector = target - node.global_position
 	var angle = vector.angle()
@@ -53,13 +49,15 @@ func face(node, target, delta):
 	angle = lerp_angle(r, angle, 1.0)
 	angle = clamp(angle, r - angle_delta, r + angle_delta)
 	node.set_global_rotation(angle)
+	pass
+	
 
 func rotate_to(node, target, delta):
 	var direction = (target - global_position)
 	var angleTo = node.transform.x.angle_to(direction)
 	var rotation_value = sign(angleTo) * min(delta * (movement_speed * 0.03), abs(angleTo))
 	node.rotate(rotation_value)
-
+	
 func get_current_destination():
 	if global_position.distance_to(_movement_target_position) < rect.size.x * 0.2:
 		return global_position
@@ -69,10 +67,17 @@ func _on_map_01_mouse_click_movement(movement_target: Vector2):
 	_movement_target_position = movement_target
 	var direction = (movement_target - global_position).normalized()
 	velocity = direction * movement_speed
-
+	pass 
+	
 func fire_weaponary():
-	shoot_cannon.emit()
+	shoot_cannon.emit($MechTop.global_rotation)
 	$ManualAimDisengage.start()
+
+func get_type():
+	return self.type
+	
+func get_is_player_controlled():
+	return self.is_player_controlled
 
 func _on_health_entity_death():
 	self.queue_free()
@@ -83,19 +88,22 @@ func hit(damage: int):
 func _on_map_01_space_damage():
 	fire_weaponary()
 
+
 func _on_map_01_mouse_click_shoot(face_target: Vector2):
 	_is_manually_aiming = true
 	_face_target_direction = face_target
 	$ManualAimDisengage.start()
+	pass # Replace with function body.
 
 
 func _on_manual_aim_disengage_timeout():
 	_face_target_direction = _movement_target_position
 	_is_manually_aiming = false
+	pass # Replace with function body.
 "
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tghwv"]
-size = Vector2(62, 30)
+size = Vector2(66, 40)
 
 [node name="EntityPcMech" type="CharacterBody2D"]
 position = Vector2(564, 309)
@@ -107,7 +115,7 @@ script = SubResource("GDScript_gt15b")
 [node name="MechBase" parent="." instance=ExtResource("2_pmist")]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(3, 7)
+position = Vector2(8, 5.99997)
 rotation = 1.57079
 shape = SubResource("RectangleShape2D_tghwv")
 

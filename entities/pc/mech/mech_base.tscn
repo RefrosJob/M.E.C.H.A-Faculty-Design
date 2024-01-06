@@ -1,0 +1,68 @@
+[gd_scene load_steps=10 format=3 uid="uid://6hwwc8f8filw"]
+
+[ext_resource type="Texture2D" uid="uid://bpv5sad2ykk42" path="res://assets/entities/mech/mecha_base.png" id="1_5hdll"]
+[ext_resource type="Script" path="res://entities/pc/mech/MechBase.gd" id="2_hhnl1"]
+[ext_resource type="Texture2D" uid="uid://dttjfdinpeu3l" path="res://assets/entities/mech/mech_leg_frame_0.png" id="3_jjnm2"]
+[ext_resource type="Texture2D" uid="uid://b0udvcd288nmx" path="res://assets/entities/mech/mech_leg.png" id="4_0nytl"]
+[ext_resource type="Texture2D" uid="uid://dhn6qemxqw1s4" path="res://assets/entities/mech/mech_leg_frame_1.png" id="5_snpqa"]
+[ext_resource type="Texture2D" uid="uid://bqtwcu3xvub3n" path="res://assets/entities/mech/mech_leg_frame_2.png" id="6_aec47"]
+[ext_resource type="Texture2D" uid="uid://6l57g6ldbu1m" path="res://assets/entities/mech/mech_leg_frame_3.png" id="7_c81t3"]
+[ext_resource type="Texture2D" uid="uid://77yd24tlohpy" path="res://assets/entities/mech/mech_leg_frame_4.png" id="8_2vkn5"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hc7e8"]
+resource_name = "MECH_LEG"
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_jjnm2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_0nytl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_snpqa")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_aec47")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_c81t3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_2vkn5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_c81t3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_aec47")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_snpqa")
+}],
+"loop": true,
+"name": &"forward",
+"speed": 5.0
+}]
+
+[node name="MechBase" type="Sprite2D"]
+z_index = 2
+position = Vector2(8.25031, 5.39105)
+rotation = 1.57079
+scale = Vector2(0.0850263, 0.0850263)
+texture = ExtResource("1_5hdll")
+script = ExtResource("2_hhnl1")
+
+[node name="MechLegLeft" type="AnimatedSprite2D" parent="."]
+position = Vector2(-113.516, 67)
+rotation = -3.14158
+scale = Vector2(1.40366, 1.40366)
+sprite_frames = SubResource("SpriteFrames_hc7e8")
+animation = &"forward"
+
+[node name="MechLegRight" type="AnimatedSprite2D" parent="."]
+position = Vector2(168.75, 67.002)
+rotation = -3.14158
+scale = Vector2(1.40366, 1.40366)
+sprite_frames = SubResource("SpriteFrames_hc7e8")
+animation = &"forward"

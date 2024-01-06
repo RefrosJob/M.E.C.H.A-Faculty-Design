@@ -1,0 +1,185 @@
+[gd_scene load_steps=14 format=3 uid="uid://jrqogsnwupmq"]
+
+[ext_resource type="Texture2D" uid="uid://cpahqiw6tpt4r" path="res://assets/entities/mech/mech.png" id="1_jc80t"]
+[ext_resource type="Texture2D" uid="uid://bpv5sad2ykk42" path="res://assets/entities/mech/mecha_base.png" id="2_habu4"]
+[ext_resource type="PackedScene" uid="uid://dysjyicry3juk" path="res://entities/properties/health.tscn" id="2_hcl31"]
+[ext_resource type="PackedScene" uid="uid://d2y5c2gqbffyq" path="res://entities/properties/weapons/autocannon.tscn" id="3_rkvkb"]
+[ext_resource type="Texture2D" uid="uid://b0udvcd288nmx" path="res://assets/entities/mech/mech_leg.png" id="4_nr6cm"]
+[ext_resource type="Texture2D" uid="uid://dttjfdinpeu3l" path="res://assets/entities/mech/mech_leg_frame_0.png" id="4_vb66m"]
+[ext_resource type="Texture2D" uid="uid://dhn6qemxqw1s4" path="res://assets/entities/mech/mech_leg_frame_1.png" id="6_n8gxv"]
+[ext_resource type="Texture2D" uid="uid://bqtwcu3xvub3n" path="res://assets/entities/mech/mech_leg_frame_2.png" id="7_5ynni"]
+[ext_resource type="Texture2D" uid="uid://6l57g6ldbu1m" path="res://assets/entities/mech/mech_leg_frame_3.png" id="8_e4wvu"]
+[ext_resource type="Texture2D" uid="uid://77yd24tlohpy" path="res://assets/entities/mech/mech_leg_frame_4.png" id="9_2dviw"]
+
+[sub_resource type="GDScript" id="GDScript_gt15b"]
+script/source = "extends CharacterBody2D
+
+@export var movement_speed: float = 200
+
+@onready var rect = $CollisionShape2D.shape.get_rect()
+@onready var autocannon = $AutoCannon
+@onready var _left_leg_animation: AnimatedSprite2D = $MechBase/MechLegLeft
+@onready var _right_leg_animation: AnimatedSprite2D = $MechBase/MechLegRight
+
+var type: String = 'mech'
+var is_player_controlled: bool = true
+var movement_target_position: Vector2;
+var face_target_direction: Vector2;
+
+signal shoot_cannon
+
+func _ready():
+	if movement_speed == 0:
+		movement_speed = 300
+	pass
+	
+func _physics_process(delta):
+	var collision = move_and_collide(velocity * delta)
+	rotate_to(delta)
+	_left_leg_animation.play(\"forward\");
+	if (_left_leg_animation.frame == 8 && _right_leg_animation.is_playing() != true):
+		_right_leg_animation.play(\"forward\");
+	if collision || global_position.distance_to(movement_target_position) < rect.size.x * 0.2:
+		_left_leg_animation.pause()
+		_right_leg_animation.pause()
+		velocity = Vector2(0, 0)
+	$MechTop.look_at(face_target_direction * delta)
+	
+
+func rotate_to(delta):
+	var direction = (movement_target_position - global_position)
+	var angleTo = self.transform.x.angle_to(direction)
+	var rotation_value = sign(angleTo) * min(delta * (movement_speed * 0.03), abs(angleTo))
+	self.rotate(rotation_value)
+	
+func get_current_destination():
+	if global_position.distance_to(movement_target_position) < rect.size.x * 0.2:
+		return global_position
+	return movement_target_position
+
+func _on_map_01_mouse_click_movement(movement_target: Vector2):
+	movement_target_position = movement_target
+	var direction = (movement_target - global_position).normalized()
+	velocity = direction * movement_speed
+	pass 
+	
+func fire_weaponary():
+	shoot_cannon.emit(rotation)
+
+func get_type():
+	return self.type
+	
+func get_is_player_controlled():
+	return self.is_player_controlled
+
+func _on_health_entity_death():
+	self.queue_free()
+
+func hit(damage: int):
+	$Health.decrease_health(damage)
+
+func _on_map_01_space_damage(damage: int):
+	$Health.decrease_health(damage)
+
+
+func _on_map_01_mouse_click_shoot(face_target: Vector2):
+	face_target_direction = face_target
+	pass # Replace with function body.
+"
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hc7e8"]
+resource_name = "MECH_LEG"
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_vb66m")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_nr6cm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_n8gxv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_5ynni")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_e4wvu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_2dviw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_e4wvu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_5ynni")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_n8gxv")
+}],
+"loop": true,
+"name": &"forward",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tghwv"]
+size = Vector2(66, 40)
+
+[node name="EntityPcMech" type="CharacterBody2D"]
+position = Vector2(564, 309)
+slide_on_ceiling = false
+script = SubResource("GDScript_gt15b")
+
+[node name="MechTop" type="Node2D" parent="."]
+position = Vector2(0, 7)
+
+[node name="MechBody" type="Sprite2D" parent="MechTop"]
+z_index = 3
+rotation = -1.57079
+scale = Vector2(0.0774431, 0.0771986)
+texture = ExtResource("1_jc80t")
+
+[node name="AutoCannon" parent="MechTop/MechBody" instance=ExtResource("3_rkvkb")]
+z_index = 1
+position = Vector2(-322.817, 142.492)
+rotation = 3.14158
+scale = Vector2(5.91249, 4.96123)
+
+[node name="AutoCannon2" parent="MechTop/MechBody" instance=ExtResource("3_rkvkb")]
+z_index = 1
+position = Vector2(348.644, 142.488)
+rotation = 3.14158
+scale = Vector2(5.91249, 4.96123)
+
+[node name="MechBase" type="Sprite2D" parent="."]
+z_index = 2
+position = Vector2(8.25031, 5.39105)
+rotation = 1.57079
+scale = Vector2(0.0850263, 0.0850263)
+texture = ExtResource("2_habu4")
+
+[node name="MechLegLeft" type="AnimatedSprite2D" parent="MechBase"]
+position = Vector2(-113.516, 67)
+rotation = -3.14158
+scale = Vector2(1.40366, 1.40366)
+sprite_frames = SubResource("SpriteFrames_hc7e8")
+animation = &"forward"
+
+[node name="MechLegRight" type="AnimatedSprite2D" parent="MechBase"]
+position = Vector2(168.75, 67.002)
+rotation = -3.14158
+scale = Vector2(1.40366, 1.40366)
+sprite_frames = SubResource("SpriteFrames_hc7e8")
+animation = &"forward"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(8, 5.99997)
+rotation = 1.57079
+shape = SubResource("RectangleShape2D_tghwv")
+
+[node name="Health" parent="." instance=ExtResource("2_hcl31")]
+
+[connection signal="shoot_cannon" from="." to="MechTop/MechBody/AutoCannon" method="shoot"]
+[connection signal="shoot_cannon" from="." to="MechTop/MechBody/AutoCannon2" method="shoot"]
+[connection signal="entity_death" from="Health" to="." method="_on_health_entity_death"]

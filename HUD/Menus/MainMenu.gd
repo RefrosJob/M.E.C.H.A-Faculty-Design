@@ -5,6 +5,10 @@ signal map_chosen
 @onready var confirm_leave = $ConfirmLeave
 @onready var scenario_picker_container = $HorisontalMenuContainer/ScenarioPickerContainer
 
+func clear_selections():
+	if scenario_picker_container.is_visible():
+		scenario_picker_container.hide()
+
 func _notification(what):
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
 		get_tree().quit()

@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://d2y5c2gqbffyq"]
+
+[ext_resource type="Script" path="res://entities/properties/weapons/autocannon.gd" id="1_8bov3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wsmv8"]
+size = Vector2(7.37386, 126.27)
+
+[node name="AutoCannon" type="CharacterBody2D"]
+position = Vector2(576, 309)
+scale = Vector2(1.07657, 0.896733)
+script = ExtResource("1_8bov3")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -23.222
+offset_top = -60.2186
+offset_right = -8.22198
+offset_bottom = -19.2186
+scale = Vector2(3.10014, 3.13724)
+color = Color(0.882353, 0.172549, 0.0941176, 1)
+
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(-6.10352e-05, -92.5582)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-6.10352e-05, 0)
+rotation = 3.14159
+scale = Vector2(4.5638, -0.976351)
+shape = SubResource("RectangleShape2D_wsmv8")
+disabled = true

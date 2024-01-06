@@ -13,30 +13,30 @@ visible = false
 offset_right = 1152.0
 offset_bottom = 648.0
 
-[node name="HUDContainer" type="HBoxContainer" parent="HUD"]
+[node name="HUDPanelLeft" type="HBoxContainer" parent="HUD"]
 layout_mode = 2
 focus_mode = 1
 
-[node name="Margin" type="MarginContainer" parent="HUD/HUDContainer"]
+[node name="Margin" type="MarginContainer" parent="HUD/HUDPanelLeft"]
 custom_minimum_size = Vector2(180, 0)
 layout_mode = 2
 focus_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="HUD/HUDContainer/Margin"]
+[node name="MarginContainer" type="MarginContainer" parent="HUD/HUDPanelLeft/Margin"]
 layout_mode = 2
 theme_override_constants/margin_left = 12
 theme_override_constants/margin_right = 12
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="HUD/HUDContainer/Margin/MarginContainer"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="HUD/HUDPanelLeft/Margin/MarginContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="Button" type="Button" parent="HUD/HUDContainer/Margin/MarginContainer/VBoxContainer2"]
+[node name="Button" type="Button" parent="HUD/HUDPanelLeft/Margin/MarginContainer/VBoxContainer2"]
 z_index = 110
 layout_mode = 2
 text = "TEST"
 
-[node name="TextureRect" type="TextureRect" parent="HUD/HUDContainer/Margin"]
+[node name="TextureRect" type="TextureRect" parent="HUD/HUDPanelLeft/Margin"]
 z_index = 100
 layout_mode = 2
 mouse_filter = 2
@@ -44,23 +44,21 @@ texture = ExtResource("3_pbcn8")
 expand_mode = 3
 stretch_mode = 4
 
-[node name="HUDPanelRight" type="VBoxContainer" parent="HUD/HUDContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/HUDPanelLeft"]
 layout_mode = 2
 size_flags_horizontal = 3
-mouse_filter = 2
 alignment = 2
 
-[node name="Container" type="MarginContainer" parent="HUD/HUDContainer/HUDPanelRight"]
+[node name="Container" type="MarginContainer" parent="HUD/HUDPanelLeft/VBoxContainer"]
 clip_contents = true
 layout_mode = 2
 size_flags_vertical = 3
-mouse_filter = 2
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="HUD/HUDContainer/HUDPanelRight/Container"]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="HUD/HUDPanelLeft/VBoxContainer/Container"]
 clip_contents = true
 layout_mode = 2
 
-[node name="SubViewport" type="SubViewport" parent="HUD/HUDContainer/HUDPanelRight/Container/SubViewportContainer"]
+[node name="SubViewport" type="SubViewport" parent="HUD/HUDPanelLeft/VBoxContainer/Container/SubViewportContainer"]
 unique_name_in_owner = true
 handle_input_locally = false
 size = Vector2i(962, 457)
@@ -68,16 +66,15 @@ size_2d_override = Vector2i(1150, 650)
 size_2d_override_stretch = true
 render_target_update_mode = 0
 
-[node name="GameEndView" parent="HUD/HUDContainer/HUDPanelRight/Container" instance=ExtResource("3_hh5xi")]
-unique_name_in_owner = true
+[node name="GameEndView" parent="HUD/HUDPanelLeft/VBoxContainer/Container" instance=ExtResource("3_hh5xi")]
 visible = false
 layout_mode = 2
 
-[node name="Control" type="Control" parent="HUD/HUDContainer/HUDPanelRight"]
+[node name="Control" type="Control" parent="HUD/HUDPanelLeft/VBoxContainer"]
 custom_minimum_size = Vector2(0, 184)
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="HUD/HUDContainer/HUDPanelRight/Control"]
+[node name="TextureRect" type="TextureRect" parent="HUD/HUDPanelLeft/VBoxContainer/Control"]
 z_index = 90
 layout_mode = 1
 anchors_preset = 15
@@ -89,5 +86,5 @@ mouse_filter = 2
 texture = ExtResource("4_1uq5s")
 expand_mode = 3
 
-[connection signal="pressed" from="HUD/HUDContainer/Margin/MarginContainer/VBoxContainer2/Button" to="." method="_on_button_pressed"]
-[connection signal="on_back_to_menu_pressed" from="HUD/HUDContainer/HUDPanelRight/Container/GameEndView" to="." method="_on_game_end_view_on_back_to_menu_pressed"]
+[connection signal="pressed" from="HUD/HUDPanelLeft/Margin/MarginContainer/VBoxContainer2/Button" to="." method="_on_button_pressed"]
+[connection signal="on_back_to_menu_pressed" from="HUD/HUDPanelLeft/VBoxContainer/Container/GameEndView" to="." method="_on_game_end_view_on_back_to_menu_pressed"]

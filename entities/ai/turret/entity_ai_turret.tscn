@@ -1,11 +1,11 @@
 [gd_scene load_steps=2 format=3 uid="uid://iavgqv2buqyi"]
 
-[ext_resource type="Script" path="res://entities/entity.gd" id="1_qjdxq"]
+[ext_resource type="Script" path="res://entities/ai/turret/entity_ai_turret.gd" id="1_msmmb"]
 
 [node name="Entity" type="CharacterBody2D"]
 position = Vector2(564, 306)
 slide_on_ceiling = false
-script = ExtResource("1_qjdxq")
+script = ExtResource("1_msmmb")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 offset_left = -20.0

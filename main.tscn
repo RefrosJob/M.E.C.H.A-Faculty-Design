@@ -12,3 +12,4 @@ script = ExtResource("1_6mfir")
 [node name="GameRenderer" parent="." instance=ExtResource("4_dlmdc")]
 
 [connection signal="map_chosen" from="MainMenu" to="." method="_on_main_menu_map_chosen"]
+[connection signal="render_stop" from="GameRenderer" to="." method="_on_game_renderer_render_stop"]
