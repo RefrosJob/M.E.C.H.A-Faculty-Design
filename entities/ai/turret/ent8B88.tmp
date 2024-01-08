@@ -1,0 +1,57 @@
+[gd_scene load_steps=5 format=3 uid="uid://iavgqv2buqyi"]
+
+[ext_resource type="Texture2D" uid="uid://2qd7j22iy2d1" path="res://assets/entities/turret/turret_base.png" id="1_dx7f5"]
+[ext_resource type="PackedScene" uid="uid://dysjyicry3juk" path="res://entities/properties/health.tscn" id="2_1o3x6"]
+[ext_resource type="Texture2D" uid="uid://d4vry2bb7i42" path="res://assets/entities/turret/turret_head.png" id="3_1ih0m"]
+
+[sub_resource type="GDScript" id="GDScript_rrexp"]
+script/source = "extends StaticBody2D
+
+@export var aiming_speed = 200
+var type: String = 'turret'
+var is_player_controlled: bool = false
+
+var _facing_target_position: Vector2;
+
+func _physics_process(_delta):
+	pass
+
+func _on_health_entity_taken_damage():
+	pass 
+
+func rotate_to():
+	pass
+
+func _on_health_entity_death():
+	self.queue_free()
+
+
+func _on_ai_data_collector_pc_entity_positions(pc_entities: PackedVector2Array):
+	pass
+"
+
+[node name="EntityAiTurret" type="StaticBody2D"]
+position = Vector2(564, 306)
+script = SubResource("GDScript_rrexp")
+
+[node name="TurretCollision" type="CollisionPolygon2D" parent="."]
+position = Vector2(-20, -20)
+polygon = PackedVector2Array(0, 0, 40, 0, 40, 40, 0, 40)
+
+[node name="TurretBase" type="Sprite2D" parent="."]
+position = Vector2(-1.14441e-05, 1.28746e-05)
+scale = Vector2(0.124064, 0.124064)
+texture = ExtResource("1_dx7f5")
+offset = Vector2(-5.04102, 54.4902)
+
+[node name="Health" parent="." instance=ExtResource("2_1o3x6")]
+max_health = 5
+
+[node name="TurretTop" type="Sprite2D" parent="."]
+position = Vector2(-1.52588e-05, -5.72205e-06)
+scale = Vector2(0.131017, 0.131017)
+texture = ExtResource("3_1ih0m")
+offset = Vector2(-3.79834, 50.3481)
+
+[connection signal="entity_death" from="Health" to="." method="_on_health_entity_death"]
+[connection signal="entity_taken_damage" from="Health" to="." method="_on_health_entity_taken_damage"]

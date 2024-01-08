@@ -1,0 +1,176 @@
+[gd_scene load_steps=5 format=3 uid="uid://n6fafnnb4wnw"]
+
+[ext_resource type="Script" path="res://HUD/Menus/MainMenu.gd" id="1_2f7ds"]
+[ext_resource type="Texture2D" uid="uid://cf85yieyg48jv" path="res://assets/HUD/hud_panel_left.png" id="2_xv765"]
+[ext_resource type="Texture2D" uid="uid://dmai4ci0vf5g2" path="res://assets/HUD/hud_display.png" id="3_r4qho"]
+[ext_resource type="Theme" uid="uid://cllpbj45gwxec" path="res://HUD/Themes/MainMenu/main_menu.tres" id="4_hanci"]
+
+[node name="MainMenu" type="MarginContainer"]
+clip_contents = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_right = 120
+script = ExtResource("1_2f7ds")
+
+[node name="ConfirmLeave" type="ConfirmationDialog" parent="."]
+disable_3d = true
+initial_position = 5
+size = Vector2i(232, 100)
+unresizable = true
+always_on_top = true
+dialog_text = "You sure you want to leave?"
+
+[node name="ScenarioPicker" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(650, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 455
+theme_override_constants/margin_bottom = 40
+
+[node name="ScenarioBgTexture" type="TextureRect" parent="ScenarioPicker"]
+clip_contents = true
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("2_xv765")
+
+[node name="ScenarioInnerMargin" type="MarginContainer" parent="ScenarioPicker"]
+layout_mode = 2
+theme_override_constants/margin_left = 105
+theme_override_constants/margin_top = 55
+theme_override_constants/margin_right = 35
+theme_override_constants/margin_bottom = 80
+
+[node name="ScenarioPickerTexture" type="TextureRect" parent="ScenarioPicker/ScenarioInnerMargin"]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("3_r4qho")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScenarioPicker/ScenarioInnerMargin"]
+layout_mode = 2
+theme_override_constants/margin_left = 280
+theme_override_constants/margin_top = 65
+theme_override_constants/margin_bottom = 50
+
+[node name="ScenarioPickerContainer" type="VBoxContainer" parent="ScenarioPicker/ScenarioInnerMargin/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/separation = 24
+
+[node name="Title" type="Label" parent="ScenarioPicker/ScenarioInnerMargin/MarginContainer/ScenarioPickerContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "Pick Your Scenario
+"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="ScenarioPicker/ScenarioInnerMargin/MarginContainer/ScenarioPickerContainer"]
+custom_minimum_size = Vector2(0, 290.52)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_default_cursor_shape = 2
+follow_focus = true
+
+[node name="MenuOptions" type="VBoxContainer" parent="ScenarioPicker/ScenarioInnerMargin/MarginContainer/ScenarioPickerContainer/ScrollContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 292.475)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 1
+
+[node name="MainMenuMargin" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_right = 665
+
+[node name="HorisontalMenuContainer" type="HBoxContainer" parent="MainMenuMargin"]
+clip_contents = true
+layout_mode = 2
+mouse_filter = 2
+
+[node name="MenuBgMargin" type="MarginContainer" parent="MainMenuMargin/HorisontalMenuContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MenuBgTexture" type="TextureRect" parent="MainMenuMargin/HorisontalMenuContainer/MenuBgMargin"]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("2_xv765")
+
+[node name="MenuMargin" type="MarginContainer" parent="MainMenuMargin/HorisontalMenuContainer/MenuBgMargin"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 120
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 150
+
+[node name="MenuTexture" type="TextureRect" parent="MainMenuMargin/HorisontalMenuContainer/MenuBgMargin/MenuMargin"]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("3_r4qho")
+
+[node name="MenuOptionsMargin" type="MarginContainer" parent="MainMenuMargin/HorisontalMenuContainer/MenuBgMargin/MenuMargin"]
+clip_contents = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_right = -10
+
+[node name="MenuOptionsContainer" type="VBoxContainer" parent="MainMenuMargin/HorisontalMenuContainer/MenuBgMargin/MenuMargin/MenuOptionsMargin"]
+layout_mode = 2
+theme_override_constants/separation = 9
+alignment = 1
+
+[node name="Title" type="Label" parent="MainMenuMargin/HorisontalMenuContainer/MenuBgMargin/MenuMargin/MenuOptionsMargin/MenuOptionsContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.815686, 0, 1)
+theme_override_font_sizes/font_size = 20
+text = "M.E.C.H.A. Faculty Design"
+
+[node name="MenuOptions" type="VBoxContainer" parent="MainMenuMargin/HorisontalMenuContainer/MenuBgMargin/MenuMargin/MenuOptionsMargin/MenuOptionsContainer"]
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="Play" type="Button" parent="MainMenuMargin/HorisontalMenuContainer/MenuBgMargin/MenuMargin/MenuOptionsMargin/MenuOptionsContainer/MenuOptions"]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("4_hanci")
+theme_override_colors/font_color = Color(0, 0.815686, 0, 1)
+text = "Play"
+flat = true
+alignment = 0
+
+[node name="Guide" type="Button" parent="MainMenuMargin/HorisontalMenuContainer/MenuBgMargin/MenuMargin/MenuOptionsMargin/MenuOptionsContainer/MenuOptions"]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("4_hanci")
+text = "Guide"
+flat = true
+alignment = 0
+
+[node name="Settings" type="Button" parent="MainMenuMargin/HorisontalMenuContainer/MenuBgMargin/MenuMargin/MenuOptionsMargin/MenuOptionsContainer/MenuOptions"]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("4_hanci")
+text = "Settings"
+flat = true
+alignment = 0
+
+[node name="Exit" type="Button" parent="MainMenuMargin/HorisontalMenuContainer/MenuBgMargin/MenuMargin/MenuOptionsMargin/MenuOptionsContainer/MenuOptions"]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("4_hanci")
+text = "Exit"
+flat = true
+alignment = 0
+
+[connection signal="confirmed" from="ConfirmLeave" to="." method="_on_confirm_leave_confirmed"]
+[connection signal="pressed" from="MainMenuMargin/HorisontalMenuContainer/MenuBgMargin/MenuMargin/MenuOptionsMargin/MenuOptionsContainer/MenuOptions/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="MainMenuMargin/HorisontalMenuContainer/MenuBgMargin/MenuMargin/MenuOptionsMargin/MenuOptionsContainer/MenuOptions/Exit" to="." method="_on_exit_pressed"]
+[connection signal="pressed" from="MainMenuMargin/HorisontalMenuContainer/MenuBgMargin/MenuMargin/MenuOptionsMargin/MenuOptionsContainer/MenuOptions/Exit" to="ConfirmLeave" method="_on_exit_pressed"]

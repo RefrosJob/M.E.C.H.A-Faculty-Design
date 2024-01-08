@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c66j2vqtfj61w"
-path="res://.godot/imported/mech_leg.png-7fd4c69dc931be217ce30180133db10e.ctex"
+uid="uid://b585bc1ju7mxo"
+path="res://.godot/imported/autocannon_ai.png-d91d07b598e8545b16887d37215edb58.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://entities/pc/mech/mech_leg.png"
-dest_files=["res://.godot/imported/mech_leg.png-7fd4c69dc931be217ce30180133db10e.ctex"]
+source_file="res://assets/entities/mech/autocannon_ai.png"
+dest_files=["res://.godot/imported/autocannon_ai.png-d91d07b598e8545b16887d37215edb58.ctex"]
 
 [params]
 

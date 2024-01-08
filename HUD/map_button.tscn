@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://b2kkpe03l5sjy"]
+
+[ext_resource type="Script" path="res://MapButton.gd" id="1_nesby"]
+
+[node name="MapButton" type="Button"]
+script = ExtResource("1_nesby")
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]

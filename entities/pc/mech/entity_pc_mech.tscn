@@ -7,45 +7,63 @@
 [sub_resource type="GDScript" id="GDScript_gt15b"]
 script/source = "extends CharacterBody2D
 
+signal shoot_cannon
+
 @export var movement_speed: float = 200
-@export var aiming_speed: float = PI
+@export var aiming_speed: float = 3.1
 
 @onready var rect = $CollisionShape2D.shape.get_rect()
 @onready var mech_base = $MechBase
+@onready var mech_top: Node2D = $MechTop
 
 var type: String = 'mech'
 var is_player_controlled: bool = true
+var is_entity_destroyed: bool = false
+var movement_target_position: Vector2;
 
-var _movement_target_position: Vector2;
 var _face_target_direction: Vector2;
 var _is_manually_aiming: bool = false
 
-signal shoot_cannon
+func get_is_entity_destroyed() -> bool:
+	return self.is_entity_destroyed
 
-func _ready():
+func get_current_destination() -> Vector2:
+	if global_position.distance_to(movement_target_position) < rect.size.x * 0.2:
+		return self.global_position
+	return self.movement_target_position
+
+func get_type() -> String:
+	return self.type
+
+func get_is_player_controlled() -> bool:
+	return self.is_player_controlled
+
+func _ready() -> void:
 	if movement_speed == 0:
-		movement_speed = 300
+		movement_speed = 200
 
-func _physics_process(delta):
+func _process(_delta) -> void:
+	if is_entity_destroyed:
+		return
+
+func _physics_process(delta) -> void:
+	if is_entity_destroyed:
+		mech_base.pause_walking_animation()
+		return
 	var collision = move_and_collide(velocity * delta)
-	rotate_to(self, _movement_target_position, delta)
-	mech_base.play_walking_animation()
+	_rotate_to(self, movement_target_position, delta, movement_speed * 0.03)
+	if movement_target_position && global_position.distance_to(movement_target_position) > 10:
+		mech_base.play_walking_animation()
 	if _is_manually_aiming != true:
-		_face_target_direction = _movement_target_position
-	face($MechTop, _face_target_direction, delta)
-	if collision || global_position.distance_to(_movement_target_position) < rect.size.x * 0.2:
+		_face_target_direction = movement_target_position
+	_rotate_to($MechTop, _face_target_direction, delta, aiming_speed)
+	if collision || global_position.distance_to(movement_target_position) < rect.size.x * 0.2:
 		if collision && collision.get_collider().has_method('_goto_condition_met'):
 			collision.get_collider()._goto_condition_met()
 		mech_base.pause_walking_animation()
 		velocity = Vector2(0, 0)
-		
-func get_type():
-	return self.type
-	
-func get_is_player_controlled():
-	return self.is_player_controlled
 
-func face(node, target, delta):
+func _rotate_to(node: Node, target: Vector2, delta: float, speed: float) -> void:
 	var vector = target - node.global_position
 	var angle = vector.angle()
 	var r = node.global_rotation
@@ -54,43 +72,34 @@ func face(node, target, delta):
 	angle = clamp(angle, r - angle_delta, r + angle_delta)
 	node.set_global_rotation(angle)
 
-func rotate_to(node, target, delta):
-	var direction = (target - global_position)
-	var angleTo = node.transform.x.angle_to(direction)
-	var rotation_value = sign(angleTo) * min(delta * (movement_speed * 0.03), abs(angleTo))
-	node.rotate(rotation_value)
-
-func get_current_destination():
-	if global_position.distance_to(_movement_target_position) < rect.size.x * 0.2:
-		return global_position
-	return _movement_target_position
-
-func _on_map_01_mouse_click_movement(movement_target: Vector2):
-	_movement_target_position = movement_target
+func _on_map_01_mouse_click_movement(movement_target: Vector2) -> void:
+	movement_target_position = movement_target
 	var direction = (movement_target - global_position).normalized()
 	velocity = direction * movement_speed
 
-func fire_weaponary():
+func fire_weaponary() -> void:
 	shoot_cannon.emit()
 	$ManualAimDisengage.start()
 
-func _on_health_entity_death():
-	self.queue_free()
+func _on_health_entity_death() -> void:
+	mech_top.set_modulate(Color(0.41,0.41,0.41,1))
+	mech_base.set_modulate(Color(0.41,0.41,0.41,1))
+	self.is_entity_destroyed = true
+	
 
-func hit(damage: int):
+func hit(damage: int) -> void:
 	$Health.decrease_health(damage)
 
-func _on_map_01_space_damage():
+func _on_map_01_space_damage() -> void:
 	fire_weaponary()
 
-func _on_map_01_mouse_click_shoot(face_target: Vector2):
+func _on_map_01_mouse_click_shoot(face_target: Vector2) -> void:
 	_is_manually_aiming = true
 	_face_target_direction = face_target
 	$ManualAimDisengage.start()
 
-
-func _on_manual_aim_disengage_timeout():
-	_face_target_direction = _movement_target_position
+func _on_manual_aim_disengage_timeout() -> void:
+	_face_target_direction = movement_target_position
 	_is_manually_aiming = false
 "
 

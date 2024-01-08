@@ -9,3 +9,5 @@ func _on_back_to_menu_pressed():
 
 func _on_back_to_menu_focus_entered():
 	get_tree().paused = false
+	on_back_to_menu_pressed.emit()
+	self.hide()

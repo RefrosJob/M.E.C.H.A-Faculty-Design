@@ -1,11 +1,20 @@
-[gd_scene load_steps=4 format=3 uid="uid://dun201w3xi51e"]
+[gd_scene load_steps=5 format=3 uid="uid://dun201w3xi51e"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_6mfir"]
 [ext_resource type="PackedScene" uid="uid://n6fafnnb4wnw" path="res://HUD/Menus/MainMenu.tscn" id="1_i07yv"]
+[ext_resource type="Texture2D" uid="uid://r4lc4cne231y" path="res://assets/HUD/bg_game.png" id="2_5geyp"]
 [ext_resource type="PackedScene" uid="uid://dxxssme6qvrri" path="res://game/renderer/game_renderer.tscn" id="4_dlmdc"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_6mfir")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_5geyp")
 
 [node name="MainMenu" parent="." instance=ExtResource("1_i07yv")]
 

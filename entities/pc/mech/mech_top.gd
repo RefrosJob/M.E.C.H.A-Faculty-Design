@@ -1,8 +1,9 @@
 extends Node2D
 
+signal fire_weapons
+
 func fire_weaponary():
-	$MechBody/AutoCannon.shoot(global_rotation)
-	$MechBody/AutoCannon2.shoot(global_rotation)
+	fire_weapons.emit(global_rotation)
 
 
 func _on_entity_pc_mech_shoot_cannon():

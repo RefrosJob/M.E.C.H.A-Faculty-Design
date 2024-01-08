@@ -1,0 +1,53 @@
+[gd_scene load_steps=8 format=3 uid="uid://cra43mxskucvv"]
+
+[ext_resource type="Script" path="res://navigation/maps/map_01/map_01.gd" id="1_k7kwh"]
+[ext_resource type="Script" path="res://navigation/maps/map_01/navmesh.gd" id="2_2glxt"]
+[ext_resource type="PackedScene" uid="uid://ds2e3wgfpk2gw" path="res://entities/entity.tscn" id="3_hckl2"]
+[ext_resource type="PackedScene" uid="uid://bxdb0ix3c5ajr" path="res://objects/obstruction_object.tscn" id="4_0muv0"]
+[ext_resource type="Script" path="res://navigation/maps/map_01/GameApi.gd" id="5_welra"]
+[ext_resource type="Script" path="res://navigation/maps/map_01/Node.gd" id="6_onk3q"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_bhxb0"]
+vertices = PackedVector2Array(896.416, -20.9652, 1141, -23, 1140, 188, 620.383, 623, 151.909, 623, -16, 623, -15.6989, 525.571, -14, 372, 346, 622, -14.4529, 122.528, -14, -24, 166.037, -23.3489, 1138.38, 539.708, 1138, 623, 539, -22, 569, 623, 396, -23)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 5, 6, 7, 8), PackedInt32Array(9, 10, 11, 8, 7), PackedInt32Array(12, 13, 3), PackedInt32Array(2, 12, 3), PackedInt32Array(14, 0, 3, 15, 8), PackedInt32Array(16, 14, 8, 11)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-14, -24, 166.037, -23.3489, 396, -23, 539, -22, 896.416, -20.9652, 1141, -23, 1140, 188, 1138.38, 539.708, 1138, 623, 620.383, 623, 569, 623, 346, 622, 151.909, 623, -16, 623, -15.6989, 525.571, -14, 372, -14.4529, 122.528)])
+cell_size = 24.0
+
+[node name="Map_01" type="Node2D"]
+script = ExtResource("1_k7kwh")
+
+[node name="NavMesh" type="NavigationRegion2D" parent="."]
+unique_name_in_owner = true
+show_behind_parent = true
+position = Vector2(13, 24)
+navigation_polygon = SubResource("NavigationPolygon_bhxb0")
+use_edge_connections = false
+enter_cost = 1.0
+script = ExtResource("2_2glxt")
+
+[node name="Entity" parent="NavMesh" instance=ExtResource("3_hckl2")]
+position = Vector2(555, 375)
+movement_speed = 110.0
+
+[node name="ObstructionObject" parent="NavMesh" instance=ExtResource("4_0muv0")]
+position = Vector2(431, 153)
+disable_mode = 2
+
+[node name="ObstructionObject2" parent="NavMesh" instance=ExtResource("4_0muv0")]
+position = Vector2(849, 151)
+disable_mode = 2
+
+[node name="GameApi" type="HTTPRequest" parent="."]
+use_threads = true
+script = ExtResource("5_welra")
+
+[node name="WorldData" type="Node" parent="GameApi"]
+script = ExtResource("6_onk3q")
+
+[node name="LogicTimer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="mouse_click_movement" from="." to="NavMesh/Entity" method="_on_game_scene_mouse_click_movement"]
+[connection signal="request_completed" from="GameApi" to="." method="_on_http_request_request_completed" flags=18]
+[connection signal="request_completed" from="GameApi" to="GameApi" method="_on_request_completed"]
+[connection signal="timeout" from="LogicTimer" to="GameApi" method="_on_logic_timer_timeout"]

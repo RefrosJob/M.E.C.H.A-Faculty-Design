@@ -1,0 +1,93 @@
+[gd_scene load_steps=2 format=3 uid="uid://n6fafnnb4wnw"]
+
+[ext_resource type="Script" path="res://HUD/Menus/MainMenu.gd" id="1_2f7ds"]
+
+[node name="MainMenu" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 80
+theme_override_constants/margin_right = 120
+theme_override_constants/margin_bottom = 80
+script = ExtResource("1_2f7ds")
+
+[node name="ConfirmLeave" type="ConfirmationDialog" parent="."]
+disable_3d = true
+initial_position = 5
+size = Vector2i(232, 100)
+unresizable = true
+always_on_top = true
+dialog_text = "You sure you want to leave?"
+
+[node name="HorisontalMenuContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="MenuOptionsContainer" type="VBoxContainer" parent="HorisontalMenuContainer"]
+layout_mode = 2
+theme_override_constants/separation = 24
+alignment = 1
+
+[node name="Title" type="Label" parent="HorisontalMenuContainer/MenuOptionsContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "M.E.C.H.A. Faculty Design"
+
+[node name="MenuOptions" type="VBoxContainer" parent="HorisontalMenuContainer/MenuOptionsContainer"]
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="Play" type="Button" parent="HorisontalMenuContainer/MenuOptionsContainer/MenuOptions"]
+layout_mode = 2
+text = "Play"
+flat = true
+alignment = 0
+
+[node name="Guide" type="Button" parent="HorisontalMenuContainer/MenuOptionsContainer/MenuOptions"]
+layout_mode = 2
+text = "Guide"
+flat = true
+alignment = 0
+
+[node name="Settings" type="Button" parent="HorisontalMenuContainer/MenuOptionsContainer/MenuOptions"]
+layout_mode = 2
+text = "Settings"
+flat = true
+alignment = 0
+
+[node name="Exit" type="Button" parent="HorisontalMenuContainer/MenuOptionsContainer/MenuOptions"]
+layout_mode = 2
+text = "Exit"
+flat = true
+alignment = 0
+
+[node name="ScenarioPickerContainer" type="VBoxContainer" parent="HorisontalMenuContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 24
+
+[node name="Title" type="Label" parent="HorisontalMenuContainer/ScenarioPickerContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Pick Your Scenario
+"
+
+[node name="MenuOptions" type="VBoxContainer" parent="HorisontalMenuContainer/ScenarioPickerContainer"]
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="Map_01" type="Button" parent="HorisontalMenuContainer/ScenarioPickerContainer/MenuOptions"]
+layout_mode = 2
+text = "Map_01"
+flat = true
+alignment = 0
+
+[connection signal="confirmed" from="ConfirmLeave" to="." method="_on_confirm_leave_confirmed"]
+[connection signal="pressed" from="HorisontalMenuContainer/MenuOptionsContainer/MenuOptions/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="HorisontalMenuContainer/MenuOptionsContainer/MenuOptions/Exit" to="." method="_on_exit_pressed"]
+[connection signal="pressed" from="HorisontalMenuContainer/MenuOptionsContainer/MenuOptions/Exit" to="ConfirmLeave" method="_on_exit_pressed"]
+[connection signal="pressed" from="HorisontalMenuContainer/ScenarioPickerContainer/MenuOptions/Map_01" to="." method="_on_map_01_pressed"]

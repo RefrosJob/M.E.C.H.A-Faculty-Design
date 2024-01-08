@@ -1,93 +1,303 @@
-[gd_scene load_steps=5 format=3 uid="uid://dxxssme6qvrri"]
+[gd_scene load_steps=11 format=3 uid="uid://dxxssme6qvrri"]
 
 [ext_resource type="Script" path="res://game/renderer/game_renderer.gd" id="1_wpt8d"]
 [ext_resource type="PackedScene" uid="uid://crup63kwkagd4" path="res://HUD/Game/game_end/game_end_view.tscn" id="3_hh5xi"]
 [ext_resource type="Texture2D" uid="uid://cf85yieyg48jv" path="res://assets/HUD/hud_panel_left.png" id="3_pbcn8"]
 [ext_resource type="Texture2D" uid="uid://bvu7ll1mjn8v4" path="res://assets/HUD/hud_panel_bottom.png" id="4_1uq5s"]
+[ext_resource type="Texture2D" uid="uid://dmai4ci0vf5g2" path="res://assets/HUD/hud_display.png" id="4_yiddx"]
+[ext_resource type="Texture2D" uid="uid://35xgjd0cyda" path="res://assets/HUD/game_screen_overlay.png" id="5_6o3gb"]
+[ext_resource type="Theme" uid="uid://cllpbj45gwxec" path="res://HUD/Themes/MainMenu/main_menu.tres" id="5_edoj8"]
+[ext_resource type="Texture2D" uid="uid://dksdo14tjfj1o" path="res://assets/HUD/hud_display_small.png" id="6_hspqs"]
+[ext_resource type="Texture2D" uid="uid://coyg0yocusaqd" path="res://assets/HUD/hud_button_icon_back.png" id="7_cpirm"]
+[ext_resource type="Texture2D" uid="uid://bt8u060sgr6ax" path="res://assets/HUD/hud_display_icon_help.png" id="8_w0kuo"]
 
 [node name="GameRenderer" type="Node"]
 script = ExtResource("1_wpt8d")
 
-[node name="HUD" type="MarginContainer" parent="."]
-visible = false
-offset_right = 1152.0
-offset_bottom = 648.0
-
-[node name="HUDContainer" type="HBoxContainer" parent="HUD"]
-layout_mode = 2
-focus_mode = 1
-
-[node name="Margin" type="MarginContainer" parent="HUD/HUDContainer"]
-custom_minimum_size = Vector2(180, 0)
-layout_mode = 2
-focus_mode = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="HUD/HUDContainer/Margin"]
-layout_mode = 2
-theme_override_constants/margin_left = 12
-theme_override_constants/margin_right = 12
-
-[node name="VBoxContainer2" type="VBoxContainer" parent="HUD/HUDContainer/Margin/MarginContainer"]
-layout_mode = 2
-alignment = 1
-
-[node name="Button" type="Button" parent="HUD/HUDContainer/Margin/MarginContainer/VBoxContainer2"]
-z_index = 110
-layout_mode = 2
-text = "TEST"
-
-[node name="TextureRect" type="TextureRect" parent="HUD/HUDContainer/Margin"]
-z_index = 100
-layout_mode = 2
-mouse_filter = 2
-texture = ExtResource("3_pbcn8")
-expand_mode = 3
-stretch_mode = 4
-
-[node name="HUDPanelRight" type="VBoxContainer" parent="HUD/HUDContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 2
-alignment = 2
-
-[node name="Container" type="MarginContainer" parent="HUD/HUDContainer/HUDPanelRight"]
-clip_contents = true
-layout_mode = 2
-size_flags_vertical = 3
-mouse_filter = 2
-
-[node name="SubViewportContainer" type="SubViewportContainer" parent="HUD/HUDContainer/HUDPanelRight/Container"]
-clip_contents = true
-layout_mode = 2
-
-[node name="SubViewport" type="SubViewport" parent="HUD/HUDContainer/HUDPanelRight/Container/SubViewportContainer"]
-unique_name_in_owner = true
-handle_input_locally = false
-size = Vector2i(962, 457)
-size_2d_override = Vector2i(1150, 650)
-size_2d_override_stretch = true
-render_target_update_mode = 0
-
-[node name="GameEndView" parent="HUD/HUDContainer/HUDPanelRight/Container" instance=ExtResource("3_hh5xi")]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-
-[node name="Control" type="Control" parent="HUD/HUDContainer/HUDPanelRight"]
-custom_minimum_size = Vector2(0, 184)
-layout_mode = 2
-
-[node name="TextureRect" type="TextureRect" parent="HUD/HUDContainer/HUDPanelRight/Control"]
-z_index = 90
-layout_mode = 1
+[node name="TintColorRect" type="ColorRect" parent="."]
+modulate = Color(0, 0, 0, 0.713726)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("4_1uq5s")
-expand_mode = 3
+color = Color(0.0745098, 0.0745098, 0.0745098, 1)
 
-[connection signal="pressed" from="HUD/HUDContainer/Margin/MarginContainer/VBoxContainer2/Button" to="." method="_on_button_pressed"]
-[connection signal="on_back_to_menu_pressed" from="HUD/HUDContainer/HUDPanelRight/Container/GameEndView" to="." method="_on_game_end_view_on_back_to_menu_pressed"]
+[node name="BottomPanelTexture" type="TextureRect" parent="."]
+clip_contents = true
+custom_minimum_size = Vector2(100, 0)
+offset_left = 8.0
+offset_top = 414.0
+offset_right = 894.0
+offset_bottom = 617.0
+scale = Vector2(1.29343, 1.16457)
+texture = ExtResource("4_1uq5s")
+
+[node name="GameAspectRatioContainer" type="AspectRatioContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment_horizontal = 0
+alignment_vertical = 0
+
+[node name="GameScreenMargin" type="MarginContainer" parent="GameAspectRatioContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(1000, 0)
+layout_mode = 2
+theme_override_constants/margin_bottom = -10
+
+[node name="HudHContainer" type="HBoxContainer" parent="GameAspectRatioContainer/GameScreenMargin"]
+clip_contents = true
+layout_mode = 2
+focus_mode = 1
+
+[node name="LeftPanelMargin" type="MarginContainer" parent="GameAspectRatioContainer/GameScreenMargin/HudHContainer"]
+z_as_relative = false
+clip_contents = true
+layout_mode = 2
+focus_mode = 2
+
+[node name="LeftPanelTexture" type="TextureRect" parent="GameAspectRatioContainer/GameScreenMargin/HudHContainer/LeftPanelMargin"]
+z_as_relative = false
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("3_pbcn8")
+flip_v = true
+
+[node name="LeftPanelInnerMargin" type="MarginContainer" parent="GameAspectRatioContainer/GameScreenMargin/HudHContainer/LeftPanelMargin"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 70
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 0
+
+[node name="LeftPanelInnerVContainer" type="VBoxContainer" parent="GameAspectRatioContainer/GameScreenMargin/HudHContainer/LeftPanelMargin/LeftPanelInnerMargin"]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+
+[node name="ListMargin" type="MarginContainer" parent="GameAspectRatioContainer/GameScreenMargin/HudHContainer/LeftPanelMargin/LeftPanelInnerMargin/LeftPanelInnerVContainer"]
+custom_minimum_size = Vector2(0, 250)
+layout_mode = 2
+
+[node name="ListTexture" type="TextureRect" parent="GameAspectRatioContainer/GameScreenMargin/HudHContainer/LeftPanelMargin/LeftPanelInnerMargin/LeftPanelInnerVContainer/ListMargin"]
+layout_mode = 2
+texture = ExtResource("4_yiddx")
+
+[node name="ListInnerMargin" type="MarginContainer" parent="GameAspectRatioContainer/GameScreenMargin/HudHContainer/LeftPanelMargin/LeftPanelInnerMargin/LeftPanelInnerVContainer/ListMargin"]
+layout_mode = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 30
+
+[node name="ListInnerVContainer" type="VBoxContainer" parent="GameAspectRatioContainer/GameScreenMargin/HudHContainer/LeftPanelMargin/LeftPanelInnerMargin/LeftPanelInnerVContainer/ListMargin/ListInnerMargin"]
+layout_mode = 2
+
+[node name="TabContainer" type="TabContainer" parent="GameAspectRatioContainer/GameScreenMargin/HudHContainer/LeftPanelMargin/LeftPanelInnerMargin/LeftPanelInnerVContainer/ListMargin/ListInnerMargin/ListInnerVContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("5_edoj8")
+
+[node name="Entities" type="ScrollContainer" parent="GameAspectRatioContainer/GameScreenMargin/HudHContainer/LeftPanelMargin/LeftPanelInnerMargin/LeftPanelInnerVContainer/ListMargin/ListInnerMargin/ListInnerVContainer/TabContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("5_edoj8")
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 2
+
+[node name="EntityListScrollVContainer" type="VBoxContainer" parent="GameAspectRatioContainer/GameScreenMargin/HudHContainer/LeftPanelMargin/LeftPanelInnerMargin/LeftPanelInnerVContainer/ListMargin/ListInnerMargin/ListInnerVContainer/TabContainer/Entities"]
+unique_name_in_owner = true
+layout_mode = 2
+alignment = 1
+
+[node name="Objects" type="ScrollContainer" parent="GameAspectRatioContainer/GameScreenMargin/HudHContainer/LeftPanelMargin/LeftPanelInnerMargin/LeftPanelInnerVContainer/ListMargin/ListInnerMargin/ListInnerVContainer/TabContainer"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("5_edoj8")
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 2
+
+[node name="ObjectListScrollVContainer" type="VBoxContainer" parent="GameAspectRatioContainer/GameScreenMargin/HudHContainer/LeftPanelMargin/LeftPanelInnerMargin/LeftPanelInnerVContainer/ListMargin/ListInnerMargin/ListInnerVContainer/TabContainer/Objects"]
+unique_name_in_owner = true
+layout_mode = 2
+alignment = 1
+
+[node name="DataMargin" type="MarginContainer" parent="GameAspectRatioContainer/GameScreenMargin/HudHContainer/LeftPanelMargin/LeftPanelInnerMargin/LeftPanelInnerVContainer"]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+
+[node name="DataTexture" type="TextureRect" parent="GameAspectRatioContainer/GameScreenMargin/HudHContainer/LeftPanelMargin/LeftPanelInnerMargin/LeftPanelInnerVContainer/DataMargin"]
+layout_mode = 2
+texture = ExtResource("4_yiddx")
+
+[node name="DataMargin" type="MarginContainer" parent="GameAspectRatioContainer/GameScreenMargin/HudHContainer/LeftPanelMargin/LeftPanelInnerMargin/LeftPanelInnerVContainer/DataMargin"]
+layout_mode = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 30
+
+[node name="DataVContainer" type="VBoxContainer" parent="GameAspectRatioContainer/GameScreenMargin/HudHContainer/LeftPanelMargin/LeftPanelInnerMargin/LeftPanelInnerVContainer/DataMargin/DataMargin"]
+layout_mode = 2
+
+[node name="DataNameLabel" type="Label" parent="GameAspectRatioContainer/GameScreenMargin/HudHContainer/LeftPanelMargin/LeftPanelInnerMargin/LeftPanelInnerVContainer/DataMargin/DataMargin/DataVContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("5_edoj8")
+text = "DATA_NAME"
+
+[node name="DataScrollContainer" type="ScrollContainer" parent="GameAspectRatioContainer/GameScreenMargin/HudHContainer/LeftPanelMargin/LeftPanelInnerMargin/LeftPanelInnerVContainer/DataMargin/DataMargin/DataVContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("5_edoj8")
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 2
+
+[node name="DataScrollLabel" type="Label" parent="GameAspectRatioContainer/GameScreenMargin/HudHContainer/LeftPanelMargin/LeftPanelInnerMargin/LeftPanelInnerVContainer/DataMargin/DataMargin/DataVContainer/DataScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("5_edoj8")
+text = "Type: Turret
+Size: 15x15
+HP: 5
+MAX HP: 10
+wadawdaw
+awdawdawd
+awdawdawd
+wadawd"
+
+[node name="ActionButtonMargin" type="MarginContainer" parent="GameAspectRatioContainer/GameScreenMargin/HudHContainer/LeftPanelMargin/LeftPanelInnerMargin/LeftPanelInnerVContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+
+[node name="ActionButtonHContainer" type="HBoxContainer" parent="GameAspectRatioContainer/GameScreenMargin/HudHContainer/LeftPanelMargin/LeftPanelInnerMargin/LeftPanelInnerVContainer/ActionButtonMargin"]
+layout_mode = 2
+
+[node name="BackButtonMargin" type="MarginContainer" parent="GameAspectRatioContainer/GameScreenMargin/HudHContainer/LeftPanelMargin/LeftPanelInnerMargin/LeftPanelInnerVContainer/ActionButtonMargin/ActionButtonHContainer"]
+layout_mode = 2
+
+[node name="BackButtonTexture" type="TextureRect" parent="GameAspectRatioContainer/GameScreenMargin/HudHContainer/LeftPanelMargin/LeftPanelInnerMargin/LeftPanelInnerVContainer/ActionButtonMargin/ActionButtonHContainer/BackButtonMargin"]
+layout_mode = 2
+texture = ExtResource("6_hspqs")
+stretch_mode = 2
+
+[node name="BackButtonInnerMargin" type="MarginContainer" parent="GameAspectRatioContainer/GameScreenMargin/HudHContainer/LeftPanelMargin/LeftPanelInnerMargin/LeftPanelInnerVContainer/ActionButtonMargin/ActionButtonHContainer/BackButtonMargin"]
+layout_mode = 2
+theme_override_constants/margin_left = 17
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 10
+
+[node name="BackButton" type="Button" parent="GameAspectRatioContainer/GameScreenMargin/HudHContainer/LeftPanelMargin/LeftPanelInnerMargin/LeftPanelInnerVContainer/ActionButtonMargin/ActionButtonHContainer/BackButtonMargin/BackButtonInnerMargin"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("5_edoj8")
+icon = ExtResource("7_cpirm")
+flat = true
+text_overrun_behavior = 4
+
+[node name="HelpButtonMargin" type="MarginContainer" parent="GameAspectRatioContainer/GameScreenMargin/HudHContainer/LeftPanelMargin/LeftPanelInnerMargin/LeftPanelInnerVContainer/ActionButtonMargin/ActionButtonHContainer"]
+layout_mode = 2
+
+[node name="HelpButtonTexture" type="TextureRect" parent="GameAspectRatioContainer/GameScreenMargin/HudHContainer/LeftPanelMargin/LeftPanelInnerMargin/LeftPanelInnerVContainer/ActionButtonMargin/ActionButtonHContainer/HelpButtonMargin"]
+layout_mode = 2
+texture = ExtResource("6_hspqs")
+stretch_mode = 2
+
+[node name="HelpButtonInnerMargin" type="MarginContainer" parent="GameAspectRatioContainer/GameScreenMargin/HudHContainer/LeftPanelMargin/LeftPanelInnerMargin/LeftPanelInnerVContainer/ActionButtonMargin/ActionButtonHContainer/HelpButtonMargin"]
+layout_mode = 2
+theme_override_constants/margin_left = 17
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 10
+
+[node name="HelpButton" type="Button" parent="GameAspectRatioContainer/GameScreenMargin/HudHContainer/LeftPanelMargin/LeftPanelInnerMargin/LeftPanelInnerVContainer/ActionButtonMargin/ActionButtonHContainer/HelpButtonMargin/HelpButtonInnerMargin"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("5_edoj8")
+icon = ExtResource("8_w0kuo")
+flat = true
+
+[node name="HudPanelRight" type="VBoxContainer" parent="GameAspectRatioContainer/GameScreenMargin/HudHContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="ViewPortMargin" type="MarginContainer" parent="GameAspectRatioContainer/GameScreenMargin/HudHContainer/HudPanelRight"]
+clip_contents = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = -15
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="GameAspectRatioContainer/GameScreenMargin/HudHContainer/HudPanelRight/ViewPortMargin"]
+clip_contents = true
+custom_minimum_size = Vector2(720, 390)
+layout_mode = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="GameAspectRatioContainer/GameScreenMargin/HudHContainer/HudPanelRight/ViewPortMargin/SubViewportContainer"]
+unique_name_in_owner = true
+handle_input_locally = false
+size = Vector2i(837, 390)
+size_2d_override = Vector2i(1150, 650)
+size_2d_override_stretch = true
+render_target_update_mode = 4
+
+[node name="ViewportOverlayMargin" type="MarginContainer" parent="GameAspectRatioContainer/GameScreenMargin/HudHContainer/HudPanelRight/ViewPortMargin"]
+visible = false
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = -2
+theme_override_constants/margin_top = -3
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = -3
+
+[node name="ViewportOverlayTexture" type="TextureRect" parent="GameAspectRatioContainer/GameScreenMargin/HudHContainer/HudPanelRight/ViewPortMargin/ViewportOverlayMargin"]
+layout_mode = 2
+texture = ExtResource("5_6o3gb")
+
+[node name="GameEndView" parent="GameAspectRatioContainer/GameScreenMargin/HudHContainer/HudPanelRight/ViewPortMargin" instance=ExtResource("3_hh5xi")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="BottomPanelMargin" type="MarginContainer" parent="GameAspectRatioContainer/GameScreenMargin/HudHContainer/HudPanelRight"]
+clip_contents = true
+custom_minimum_size = Vector2(0, 250)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_bottom = 25
+
+[node name="BottomPanelHContainer" type="HBoxContainer" parent="GameAspectRatioContainer/GameScreenMargin/HudHContainer/HudPanelRight/BottomPanelMargin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="MarginContainer" type="MarginContainer" parent="GameAspectRatioContainer/GameScreenMargin/HudHContainer/HudPanelRight/BottomPanelMargin/BottomPanelHContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+
+[node name="CodeEdit" type="CodeEdit" parent="GameAspectRatioContainer/GameScreenMargin/HudHContainer/HudPanelRight/BottomPanelMargin/BottomPanelHContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="GameAspectRatioContainer/GameScreenMargin/HudHContainer/HudPanelRight/BottomPanelMargin/BottomPanelHContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="GameAspectRatioContainer/GameScreenMargin/HudHContainer/HudPanelRight/BottomPanelMargin/BottomPanelHContainer/MarginContainer2"]
+layout_mode = 2
+text = "console go here"
+
+[connection signal="pressed" from="GameAspectRatioContainer/GameScreenMargin/HudHContainer/LeftPanelMargin/LeftPanelInnerMargin/LeftPanelInnerVContainer/ActionButtonMargin/ActionButtonHContainer/BackButtonMargin/BackButtonInnerMargin/BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="GameAspectRatioContainer/GameScreenMargin/HudHContainer/LeftPanelMargin/LeftPanelInnerMargin/LeftPanelInnerVContainer/ActionButtonMargin/ActionButtonHContainer/BackButtonMargin/BackButtonInnerMargin/BackButton" to="." method="_on_button_pressed"]
+[connection signal="on_back_to_menu_pressed" from="GameAspectRatioContainer/GameScreenMargin/HudHContainer/HudPanelRight/ViewPortMargin/GameEndView" to="." method="_on_game_end_view_on_back_to_menu_pressed"]

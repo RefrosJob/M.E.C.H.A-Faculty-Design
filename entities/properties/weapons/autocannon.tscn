@@ -10,21 +10,21 @@ size = Vector2(5.54145, 91.768)
 [node name="AutoCannon" type="CharacterBody2D"]
 position = Vector2(576, 311)
 scale = Vector2(0.457881, 0.383)
-collision_layer = 2
-collision_mask = 2
+collision_layer = 4
+collision_mask = 4
 script = ExtResource("1_8bov3")
 
-[node name="Marker2D" type="Marker2D" parent="."]
+[node name="CannonFaceMarker" type="Marker2D" parent="."]
 position = Vector2(2.18401, -67.8852)
 script = ExtResource("2_203pt")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CannonCollision" type="CollisionShape2D" parent="."]
 position = Vector2(2.18384, -1.30566)
 rotation = -3.14159
 scale = Vector2(3.94115, -0.882003)
 shape = SubResource("RectangleShape2D_wsmv8")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="CannonSprite" type="Sprite2D" parent="."]
 position = Vector2(2.18408, 26.1096)
 scale = Vector2(0.238132, 0.238132)
 texture = ExtResource("3_24kku")

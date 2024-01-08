@@ -1,19 +1,24 @@
+class_name Map
 extends Node2D
 
 @onready var _navmesh: NavigationRegion2D
 
 var _map
-var _winning_condition: String = 'GOTO'
+var _winning_condition: String = 'DESTROY_ALL'
+var _entity_data: Array = []
+var _object_data: Array = []
 
 signal mouse_click_movement
 signal mouse_click_shoot
 signal space_damage
 signal map_stop
+signal entity_data
+signal object_data
 
 func _ready():
 	process_mode = Node.PROCESS_MODE_PAUSABLE
-	call_deferred("setup_navserver")
-	
+	call_deferred("_setup_navserver")
+
 func _unhandled_input(event):
 	if event.is_action_pressed("click"):
 		mouse_click_movement.emit(get_global_mouse_position())
@@ -23,7 +28,40 @@ func _unhandled_input(event):
 	elif event.is_action_pressed("space_pressed"):
 		space_damage.emit()
 	return 
-func setup_navserver():
+
+func _process(_delta):
+	_emit_navmesh_children_data()
+
+func _emit_navmesh_children_data():
+	var navmesh_children = _navmesh.get_children()
+	var new_object_data: Array = []
+	var new_entity_data: Array = []
+	for child in navmesh_children:
+		if child.has_method('get_type'):
+			if child.get_type() == 'obstacle':
+				new_object_data.append(_format_object_data(child as Obstacle))
+			if ['mech','turret'].has(child.get_type()):
+				new_entity_data.append(_format_entity_data(child))
+	if _object_data != new_object_data:
+		_object_data = new_object_data
+		object_data.emit(_object_data)
+	if _entity_data != new_entity_data:
+		_entity_data = new_entity_data
+		entity_data.emit(_entity_data)
+
+func _format_object_data(object: Obstacle):
+	var object_type = "Type: " + object.get_type().capitalize()
+	var object_size = "Size: { x: " + str(int(object.get_size().x)) + ", y: " + str(int(object.get_size().y)) + " }"
+	var object_position = "Position: { x: " + str(int(object.global_position.x)) + ", y: " + str(int(object.global_position.y)) + " }"
+	return {'name': object.name, 'data': [ object_type, object_size, object_position] }
+
+func _format_entity_data(entity: Node):
+	var entity_type = "Type: " + entity.get_type().capitalize()
+	var entity_hostile = "Hostile: " + str(!entity.get_is_player_controlled())
+	var entity_position = "Position: { x: " + str(int(entity.global_position.x)) + ", y: " + str(int(entity.global_position.y)) + " }"
+	return {'name': entity.name, 'data': [ entity_type, entity_hostile, entity_position ]}
+
+func _setup_navserver():
 
 	# create a new navigation map
 	_map = NavigationServer2D.map_create()
@@ -58,9 +96,17 @@ func get_winning_condition():
 func on_map_end(result: String):
 	map_stop.emit(result)
 	get_tree().paused = true
+	
+func _match_winning_condition(win_cause: String) -> void:
+	match win_cause:
+		_winning_condition:
+			on_map_end('SUCCESS')
 
 func _on_go_to_condition_goto_condition_met():
-	match _winning_condition:
-		'GOTO':
-			print('on map end')
-			on_map_end('VICTORY')
+	_match_winning_condition('GOTO')
+
+func _on_ai_data_collector_ai_all_entities_destroyed():
+	on_map_end('LOST')
+
+func _on_ai_data_collector_pc_all_entities_destroyed():
+	_match_winning_condition('DESTROY_ALL')
