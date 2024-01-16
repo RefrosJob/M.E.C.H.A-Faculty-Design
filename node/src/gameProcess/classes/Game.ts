@@ -30,6 +30,10 @@ export class Game implements Game {
     return this._entities;
   }
 
+  public getPlayerControlledEntities(): Entity[] {
+    return this._entities.filter((entity) => entity.isPlayerControlled);
+  }
+
   public getEntityByName(name: string): Entity | undefined {
     return this._entities.find((entity) => entity.name === name);
   }

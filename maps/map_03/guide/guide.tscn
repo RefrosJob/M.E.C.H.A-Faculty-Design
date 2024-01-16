@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://dj0qwy0nh0n7c"]
+
+[ext_resource type="PackedScene" uid="uid://bmwdg8ldf1k3q" path="res://hud/menus/guide/base_class/guide_base.tscn" id="1_0ho1w"]
+
+[node name="Guide" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="GuideBase" parent="." instance=ExtResource("1_0ho1w")]
+layout_mode = 0
+title = "Map_03 Guide"
+text = "Here be more dragons"

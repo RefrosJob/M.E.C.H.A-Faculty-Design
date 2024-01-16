@@ -1,0 +1,17 @@
+class_name Goal
+extends Area2D
+
+signal goto_condition_met
+
+var type = 'goal'
+
+func _goto_condition_met():
+	goto_condition_met.emit()
+
+
+func _on_body_entered(body):
+	if body && body.get_is_player_controlled():
+		goto_condition_met.emit()
+
+func get_type():
+	return type

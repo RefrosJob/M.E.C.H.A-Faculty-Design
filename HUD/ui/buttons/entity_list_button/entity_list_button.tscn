@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://cl6mlerhthubo"]
+
+[ext_resource type="Theme" uid="uid://cllpbj45gwxec" path="res://hud/themes/MainMenu/main_menu.tres" id="1_cs42t"]
+[ext_resource type="Script" path="res://hud/ui/buttons/entity_list_button/entity_list_button.gd" id="2_jbasv"]
+
+[node name="EntityListButton" type="Button"]
+mouse_default_cursor_shape = 2
+theme = ExtResource("1_cs42t")
+flat = true
+alignment = 0
+script = ExtResource("2_jbasv")
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]

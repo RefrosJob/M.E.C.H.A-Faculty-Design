@@ -1,0 +1,122 @@
+[gd_scene load_steps=3 format=3 uid="uid://uud8ccvy7g16"]
+
+[ext_resource type="Script" path="res://maps/map_01/guide/guide.gd" id="1_bgmse"]
+[ext_resource type="PackedScene" uid="uid://bmwdg8ldf1k3q" path="res://hud/menus/guide/base_class/guide_base.tscn" id="2_u0a13"]
+
+[node name="Guide" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_bgmse")
+
+[node name="GuideBase" parent="." instance=ExtResource("2_u0a13")]
+layout_mode = 0
+mouse_filter = 0
+title = "Map_01 Guide"
+text = "Welcome to your first level in M.E.C.H.A Faculty Design
+
+In this game, you are taking a role of a walking robot AI developer.
+
+In this guide, we will teach you how to finish levels, by writing TypeScript code.
+
+Good Luck.
+
+
+Map 01
+Goal: Reach Destination
+[img=120]res://assets/map/goto_node.png[/img]
+
+This is your first time here, so let's make it simple. 
+
+To the left on your screen, you can see a list of all objects and entities on the field. Click on objects tab and choose a goal node.
+
+On the screen directly below it, you can see all the relevant information about it.
+
+Currently we are interested in it's position represented by a pair of coordinates, x and y.
+
+In order to finish this level, you need to make your mech move into this goal node.
+
+For it, you will need to edit the [i]main[/i] function of your command module.
+
+Command module is designed to control multiple entities, so first you will need to find and choose your mech.
+
+In order to do that, add this code code inside the [i]main[/i] function.
+
+[code] const entities = game.getPlayerControlledEntities();
+ 			const mech = entities[0] [/code]
+
+As a result it should look like that
+
+[code]
+function main(game: Game) {
+	const entities = game.getPlayerControlledEntities();
+	const mech = entities[0]
+    const instructions: EntityCommands = game.getCommands();
+	return instructions
+}[/code]
+
+What we did here is we got a list of all entities that could be controlled in a given level, and chose the first one.
+Note that counting always starts with zero.
+
+Now that you got the mech. You can issue your commands to it. 
+You need to move it directly at the coordinates of the Goal Node.
+You can look them up at the object list on the left side of your screen.
+
+Add this line of code right after const mech = entities[0]:
+
+[code]
+	 mech.moveTo(571,  205);
+[/code]
+
+the result should look something like this:
+
+[code]
+function main(game: Game) {
+	const entities = game.getPlayerControlledEntities();
+	const mech = entities[0]
+	mech.moveTo(571,  205);
+    const instructions: EntityCommands = game.getCommands();
+	return instructions
+}[/code]
+
+This should be enough for you to accomplish your first task!
+Press a big green button on the right-bottom side of your screen, and see the results of your handywork for yourself!
+
+Now to explain what have you done. 
+
+[i]const entities[/i] is a variable, or precisely a constonant. Constonant is a kind of variable which reference cannot be changed. Which means that the value itself is immutable, while the contents can be reassigned. But this is a topic for another challange.
+
+[i]game[/i] is a main class of the Command Module. It contains all the information about the level, including all objects and player controlled and hostile entities. 
+
+[i].getPlayerControlledEntities()[/i] is a method, designed to retrieve a list of all player controlled entities. 
+
+mech.moveTo(x, y) is a method of a Mech Entity class. It sets a command to be delivered to the mech of your choosing. 
+
+The Command Module works this way. Every second Mechs under your command request orders and send in world data for storage. 
+What happened with code you just wrote is next, [i]main[/i] function that you edited is the main instuction generation function ran to provide ground units with orders, inside of it you requested full list of entities and chose the first one, then you assigned it an order to move towards coordinate point 571, 205. This order was repeating every second until your mech reached it's destination and finished the level.
+
+If you want to read more on the technical details of things you used here, I advise you to check out those websites:
+[color=lightblue]
+[url]https://www.typescriptlang.org/docs/handbook/variable-declarations.html[/url]
+[url]https://www.w3schools.com/typescript/typescript_arrays.php[/url]
+[url]https://www.typescriptlang.org/docs/handbook/functions.html[/url]
+[/color]
+
+
+Full Solution:
+[code]
+import { EntityCommands } from \"../controllers/game/types\";
+import { Game } from \"./classes/Game\";
+
+function main(game: Game) {
+  const entities = game.getPlayerControlledEntities();
+  const mech = entities[0]
+  mech.moveTo(571,  205);
+  const instructions: EntityCommands = game.getCommands();
+  return instructions;
+}
+
+export default main;
+[/code]
+"

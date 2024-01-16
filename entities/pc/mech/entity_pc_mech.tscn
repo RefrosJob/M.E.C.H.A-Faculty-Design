@@ -15,6 +15,7 @@ signal shoot_cannon
 @onready var rect = $CollisionShape2D.shape.get_rect()
 @onready var mech_base = $MechBase
 @onready var mech_top: Node2D = $MechTop
+@onready var navigation_agent: NavigationAgent2D = $NavigationAgent2D
 
 var type: String = 'mech'
 var is_player_controlled: bool = true
@@ -67,12 +68,17 @@ func _rotate_to(node: Node, target: Vector2, delta: float, speed: float) -> void
 	var vector = target - node.global_position
 	var angle = vector.angle()
 	var r = node.global_rotation
-	var angle_delta = aiming_speed * delta
+	var angle_delta = speed * delta
 	angle = lerp_angle(r, angle, 1.0)
 	angle = clamp(angle, r - angle_delta, r + angle_delta)
 	node.set_global_rotation(angle)
 
 func _on_map_01_mouse_click_movement(movement_target: Vector2) -> void:
+	movement_target_position = movement_target
+	var direction = (movement_target - global_position).normalized()
+	velocity = direction * movement_speed
+
+func on_move_command(movement_target:Vector2):
 	movement_target_position = movement_target
 	var direction = (movement_target - global_position).normalized()
 	velocity = direction * movement_speed
@@ -101,6 +107,13 @@ func _on_map_01_mouse_click_shoot(face_target: Vector2) -> void:
 func _on_manual_aim_disengage_timeout() -> void:
 	_face_target_direction = movement_target_position
 	_is_manually_aiming = false
+
+
+func _on_map_01_plot_path():
+	print(get_global_mouse_position())
+	navigation_agent.target_position = get_global_mouse_position()
+	print('anything?', navigation_agent.get_final_position())
+	print(navigation_agent.get_current_navigation_path());
 "
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tghwv"]
@@ -125,6 +138,11 @@ shape = SubResource("RectangleShape2D_tghwv")
 [node name="ManualAimDisengage" type="Timer" parent="."]
 wait_time = 5.0
 one_shot = true
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_postprocessing = 1
+radius = 82.03
+debug_enabled = true
 
 [connection signal="shoot_cannon" from="." to="MechTop" method="_on_entity_pc_mech_shoot_cannon"]
 [connection signal="entity_death" from="Health" to="." method="_on_health_entity_death"]

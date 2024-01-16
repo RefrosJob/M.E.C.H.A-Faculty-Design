@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://crup63kwkagd4"]
 
-[ext_resource type="Script" path="res://HUD/Game/game_end/game_end_view.gd" id="1_1t5rd"]
-[ext_resource type="Theme" uid="uid://cllpbj45gwxec" path="res://HUD/Themes/MainMenu/main_menu.tres" id="1_if0jh"]
+[ext_resource type="Theme" uid="uid://cllpbj45gwxec" path="res://hud/themes/MainMenu/main_menu.tres" id="1_tku34"]
+[ext_resource type="Script" path="res://hud/game/game_end/game_end_view.gd" id="2_y7ocw"]
 
 [node name="GameEndView" type="MarginContainer"]
 clip_contents = true
@@ -10,8 +10,8 @@ offset_top = 30.0
 offset_right = 283.0
 offset_bottom = 226.0
 mouse_filter = 2
-theme = ExtResource("1_if0jh")
-script = ExtResource("1_1t5rd")
+theme = ExtResource("1_tku34")
+script = ExtResource("2_y7ocw")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 2
@@ -32,6 +32,12 @@ mouse_filter = 2
 theme_override_constants/separation = 25
 
 [node name="GameResult" type="Label" parent="GameEndMarginContainer/GameEndContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "VICTORY / LOSE"
+horizontal_alignment = 1
+
+[node name="GameResultReason" type="Label" parent="GameEndMarginContainer/GameEndContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 36
 text = "VICTORY / LOSE"
@@ -69,5 +75,13 @@ layout_mode = 2
 text = "Back To Menu"
 flat = true
 
+[node name="Retry" type="Button" parent="GameEndMarginContainer/GameEndContainer/ButtonContainer"]
+layout_mode = 2
+theme = ExtResource("1_tku34")
+text = "Retry"
+flat = true
+
 [connection signal="focus_entered" from="GameEndMarginContainer/GameEndContainer/ButtonContainer/BackToMenu" to="." method="_on_back_to_menu_focus_entered"]
 [connection signal="pressed" from="GameEndMarginContainer/GameEndContainer/ButtonContainer/BackToMenu" to="." method="_on_back_to_menu_pressed"]
+[connection signal="focus_entered" from="GameEndMarginContainer/GameEndContainer/ButtonContainer/Retry" to="." method="_on_retry_focus_entered"]
+[connection signal="pressed" from="GameEndMarginContainer/GameEndContainer/ButtonContainer/Retry" to="." method="_on_retry_pressed"]

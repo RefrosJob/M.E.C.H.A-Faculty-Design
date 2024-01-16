@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=3 uid="uid://bmwdg8ldf1k3q"]
+
+[ext_resource type="Script" path="res://hud/menus/guide/base_class/guide_base.gd" id="1_iy6a5"]
+[ext_resource type="Theme" uid="uid://cllpbj45gwxec" path="res://hud/themes/MainMenu/main_menu.tres" id="2_8dfxf"]
+
+[node name="GuideBase" type="VBoxContainer"]
+custom_minimum_size = Vector2(300, 27.1)
+size_flags_horizontal = 3
+script = ExtResource("1_iy6a5")
+
+[node name="GuideBaseTitle" type="Label" parent="."]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.815686, 0, 1)
+theme_override_font_sizes/font_size = 20
+text = "Map_01 guide"
+
+[node name="GuideBaseRichTextLabel" type="RichTextLabel" parent="."]
+custom_minimum_size = Vector2(0, 300)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 2
+theme = ExtResource("2_8dfxf")
+theme_type_variation = &"GuideLabel"
+bbcode_enabled = true
+text = "Map_01 Guide
+[color=lightblue][url=https://www.tutorialsteacher.com/typescript/typescript-array]Array Link example[url]
+[img]res://assets/HUD/hud_display_icon_help.png[img]"
+context_menu_enabled = true
+selection_enabled = true

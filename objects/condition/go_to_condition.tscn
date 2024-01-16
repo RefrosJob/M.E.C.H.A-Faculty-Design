@@ -1,13 +1,13 @@
 [gd_scene load_steps=4 format=3 uid="uid://j4ntnwakuwmf"]
 
-[ext_resource type="Script" path="res://navigation/maps/map_01/GoToCondition.gd" id="1_3555l"]
+[ext_resource type="Script" path="res://objects/condition/go_to_condition.gd" id="1_fifbg"]
 [ext_resource type="Texture2D" uid="uid://3uof8xf35dto" path="res://assets/map/goto_node.png" id="2_t3id3"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_x2i11"]
 
 [node name="GoToCondition" type="Area2D"]
 position = Vector2(769, 321)
-script = ExtResource("1_3555l")
+script = ExtResource("1_fifbg")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 light_mask = 7

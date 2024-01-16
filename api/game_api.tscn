@@ -1,18 +1,138 @@
 [gd_scene load_steps=4 format=3 uid="uid://djytndftcavnt"]
 
-[ext_resource type="Script" path="res://navigation/maps/map_01/GameApi.gd" id="1_keuve"]
-[ext_resource type="Script" path="res://navigation/maps/map_01/Node.gd" id="2_0yttd"]
-[ext_resource type="Script" path="res://navigation/maps/map_01/CommandTranslation.gd" id="3_l688f"]
+[sub_resource type="GDScript" id="GDScript_e5ik1"]
+script/source = "extends HTTPRequest
+
+signal new_command_signal
+
+func _ready():
+	use_threads = true
+
+func _on_logic_timer_timeout():
+	## ADD PROPER ERROR HANDLING
+	cancel_request()
+	request('http://127.0.0.1:6060/game', [\"Content-Type: application/json\"], HTTPClient.METHOD_POST, JSON.stringify($WorldData.get_full_info()))
+
+func _on_request_completed(_result, response_code, _headers, body):
+	if response_code != 200:
+		print('error: ', response_code)
+		print(JSON.parse_string(body.get_string_from_utf8()))
+		return
+	var commands =JSON.parse_string(body.get_string_from_utf8())
+	print('api', commands)
+	for command in commands:
+		if command:
+			print('sending')
+			new_command_signal.emit(command)
+	
+
+func set_navmesh(_navmesh):
+	if $WorldData:
+		$WorldData.set_navmesh(_navmesh)
+		$CommandTranslation.set_navmesh(_navmesh)
+	
+"
+
+[sub_resource type="GDScript" id="GDScript_evsrh"]
+script/source = "extends Node
+
+var entity_data_list: Array
+var object_data_list: Array
+
+var navmesh: NavigationRegion2D
+
+func set_navmesh(new_navmesh: NavigationRegion2D):
+	navmesh = new_navmesh
+
+func get_world_data():
+	set_object_data()
+	var max_size = get_viewport().get_visible_rect().size
+	return {'world_size': {'max_x': max_size.x, 'max_y': max_size.y }, 'object_data': object_data_list }
+
+func get_nodes_by_types(types: PackedStringArray):
+	if navmesh :
+		var nav_mesh_children = navmesh.get_children()
+		var node_list = Array()
+		
+		for node in nav_mesh_children:
+			if node.has_method('get_type') && types.has(node.get_type()):
+				node_list.append(node)
+		
+		return node_list
+	return []
+	
+func set_object_data():
+	var object_nodes = get_nodes_by_types(['obstacle'])
+	var new_object_data_list: Array = Array()
+	
+	for object in object_nodes:
+		var object_global_position = object.global_position
+		var object_size= object.get_size()
+			
+		new_object_data_list.append(
+			{
+				'name': String(object.name), 
+				'position': {'x': round(object_global_position.x), 'y': round(object_global_position.y)},
+				'size': {'x': round(object_size.x), 'y':round(object_size.y)}
+			})
+			
+	object_data_list = new_object_data_list
+	
+
+func set_entity_data():
+	var entity_nodes = get_nodes_by_types(['mech'])
+	var new_entity_data_list: Array = Array()
+	
+	for entity in entity_nodes:
+		var entity_global_position = entity.global_position
+		var entity_current_destination = entity.get_current_destination()
+			
+		new_entity_data_list.append(
+			{
+				'name': String(entity.name), 
+				'position': {'x': round(entity_global_position.x), 'y': round(entity_global_position.y)},
+				'destination': {'x': round(entity_current_destination.x), 'y':round(entity_current_destination.y)},
+				'type': entity.get_type(),
+				'is_player_controlled': entity.get_is_player_controlled()
+			})
+			
+	entity_data_list = new_entity_data_list;
+
+func get_full_info():
+	set_entity_data()
+	var world_data = get_world_data()
+	return {'entity_data': entity_data_list, 'world_data': world_data }
+"
+
+[sub_resource type="GDScript" id="GDScript_mrr6k"]
+script/source = "extends Node
+
+var navmesh: NavigationRegion2D
+
+func set_navmesh(new_navmesh: NavigationRegion2D):
+	navmesh = new_navmesh
+
+func _on_game_api_new_command_signal(command):
+	print(command)
+	if navmesh && navmesh.get_children().size():
+		print(navmesh.get_children().size())
+		match command['command'].keys()[0]:
+			'moveTo':
+				var target = navmesh.get_node(command['entityName'])
+				var velocity = Vector2(float(command.command['moveTo'].x), float(command.command['moveTo'].y))
+				print(velocity)
+				target.on_move_command(velocity)
+"
 
 [node name="GameApi" type="HTTPRequest"]
 use_threads = true
-script = ExtResource("1_keuve")
+script = SubResource("GDScript_e5ik1")
 
 [node name="WorldData" type="Node" parent="."]
-script = ExtResource("2_0yttd")
+script = SubResource("GDScript_evsrh")
 
 [node name="CommandTranslation" type="Node" parent="."]
-script = ExtResource("3_l688f")
+script = SubResource("GDScript_mrr6k")
 
 [connection signal="new_command_signal" from="." to="CommandTranslation" method="_on_game_api_new_command_signal"]
 [connection signal="request_completed" from="." to="." method="_on_request_completed"]

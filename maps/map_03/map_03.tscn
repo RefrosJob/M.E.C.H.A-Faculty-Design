@@ -1,0 +1,90 @@
+[gd_scene load_steps=11 format=3 uid="uid://t6wjo0lxavaa"]
+
+[ext_resource type="Script" path="res://maps/base/map.gd" id="1_w0hly"]
+[ext_resource type="PackedScene" uid="uid://bxdb0ix3c5ajr" path="res://objects/obstruction_object.tscn" id="2_p4pg2"]
+[ext_resource type="Script" path="res://maps/base/navmesh.tres.gd" id="2_u5koa"]
+[ext_resource type="PackedScene" uid="uid://jrqogsnwupmq" path="res://entities/pc/mech/entity_pc_mech.tscn" id="3_w7o0s"]
+[ext_resource type="PackedScene" uid="uid://j4ntnwakuwmf" path="res://objects/condition/go_to_condition.tscn" id="4_trxug"]
+[ext_resource type="PackedScene" uid="uid://djytndftcavnt" path="res://api/game_api.tscn" id="5_fy6cr"]
+[ext_resource type="Texture2D" uid="uid://djjoly7svrc7i" path="res://assets/map/env-pavement.png" id="6_3t1pj"]
+[ext_resource type="PackedScene" uid="uid://iavgqv2buqyi" path="res://entities/ai/turret/entity_ai_turret.tscn" id="6_qvqmu"]
+[ext_resource type="Script" path="res://maps/base/data_collector.tres.gd" id="8_nnbdb"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_bhxb0"]
+vertices = PackedVector2Array(896.416, -20.9652, 1141, -23, 1140, 188, 620.383, 623, 151.909, 623, -16, 623, -15.6989, 525.571, -14, 372, 346, 622, -14.4529, 122.528, -14, -24, 166.037, -23.3489, 1138.38, 539.708, 1138, 623, 539, -22, 569, 623, 396, -23)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 5, 6, 7, 8), PackedInt32Array(9, 10, 11, 8, 7), PackedInt32Array(12, 13, 3), PackedInt32Array(2, 12, 3), PackedInt32Array(14, 0, 3, 15, 8), PackedInt32Array(16, 14, 8, 11)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-14, -24, 166.037, -23.3489, 396, -23, 539, -22, 896.416, -20.9652, 1141, -23, 1140, 188, 1138.38, 539.708, 1138, 623, 620.383, 623, 569, 623, 346, 622, 151.909, 623, -16, 623, -15.6989, 525.571, -14, 372, -14.4529, 122.528)])
+cell_size = 24.0
+
+[node name="Map_03" type="Node2D"]
+script = ExtResource("1_w0hly")
+maximum_completion_time = 30
+
+[node name="NavMesh" type="NavigationRegion2D" parent="."]
+unique_name_in_owner = true
+show_behind_parent = true
+position = Vector2(13, 24)
+navigation_polygon = SubResource("NavigationPolygon_bhxb0")
+use_edge_connections = false
+enter_cost = 1.0
+script = ExtResource("2_u5koa")
+
+[node name="ObstructionObject" parent="NavMesh" instance=ExtResource("2_p4pg2")]
+z_index = 2
+position = Vector2(165, 144)
+rotation = 1.57079
+disable_mode = 2
+
+[node name="ObstructionObject2" parent="NavMesh" instance=ExtResource("2_p4pg2")]
+z_index = 2
+position = Vector2(746, 374)
+disable_mode = 2
+
+[node name="ObstructionObject3" parent="NavMesh" instance=ExtResource("2_p4pg2")]
+z_index = 2
+position = Vector2(904, 149)
+rotation = 1.55471
+disable_mode = 2
+
+[node name="EntityPcMech" parent="NavMesh" instance=ExtResource("3_w7o0s")]
+position = Vector2(547, 550)
+rotation = -1.59129
+
+[node name="GoToCondition" parent="NavMesh" instance=ExtResource("4_trxug")]
+z_index = 2
+position = Vector2(684, 95)
+
+[node name="EntityAiTurret" parent="NavMesh" instance=ExtResource("6_qvqmu")]
+position = Vector2(793, 39)
+rotation = 2.76516
+aiming_range = 500.0
+
+[node name="GameApi" parent="." instance=ExtResource("5_fy6cr")]
+
+[node name="LogicTimer" type="Timer" parent="."]
+autostart = true
+
+[node name="DataCollector" type="Node" parent="."]
+script = ExtResource("8_nnbdb")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1150.0
+offset_bottom = 647.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_3t1pj")
+stretch_mode = 1
+
+[connection signal="mouse_click_movement" from="." to="NavMesh/EntityPcMech" method="_on_map_01_mouse_click_movement"]
+[connection signal="mouse_click_shoot" from="." to="NavMesh/EntityPcMech" method="_on_map_01_mouse_click_shoot"]
+[connection signal="plot_path" from="." to="NavMesh/EntityPcMech" method="_on_map_01_plot_path"]
+[connection signal="space_damage" from="." to="NavMesh/EntityPcMech" method="_on_map_01_space_damage"]
+[connection signal="child_entered_tree" from="NavMesh" to="." method="_on_nav_mesh_child_entered_tree"]
+[connection signal="ready" from="NavMesh" to="." method="_on_nav_mesh_ready"]
+[connection signal="goto_condition_met" from="NavMesh/GoToCondition" to="." method="_on_go_to_condition_goto_condition_met"]
+[connection signal="ai_all_entities_destroyed" from="DataCollector" to="." method="_on_ai_data_collector_ai_all_entities_destroyed"]
+[connection signal="pc_all_entities_destroyed" from="DataCollector" to="." method="_on_ai_data_collector_pc_all_entities_destroyed"]
+[connection signal="pc_entity_positions" from="DataCollector" to="NavMesh/EntityAiTurret" method="_on_ai_data_collector_pc_entity_positions"]

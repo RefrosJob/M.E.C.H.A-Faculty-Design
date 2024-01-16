@@ -1,0 +1,65 @@
+[gd_scene load_steps=5 format=3 uid="uid://bieltr2amicl1"]
+
+[ext_resource type="Texture2D" uid="uid://cf85yieyg48jv" path="res://assets/hud/hud_panel_left.png" id="1_1llj0"]
+[ext_resource type="Script" path="res://hud/menus/map_picker/map_picker.gd" id="1_wk2pp"]
+[ext_resource type="Texture2D" uid="uid://dmai4ci0vf5g2" path="res://assets/hud/hud_display.png" id="2_mnc21"]
+[ext_resource type="Theme" uid="uid://cllpbj45gwxec" path="res://hud/themes/MainMenu/main_menu.tres" id="3_3put2"]
+
+[node name="MapPicker" type="MarginContainer"]
+visible = false
+mouse_filter = 2
+theme_override_constants/margin_right = -605
+script = ExtResource("1_wk2pp")
+
+[node name="ScenarioBgTexture" type="TextureRect" parent="."]
+clip_contents = true
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("1_1llj0")
+
+[node name="ScenarioInnerMargin" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 105
+theme_override_constants/margin_top = 55
+theme_override_constants/margin_right = 35
+theme_override_constants/margin_bottom = 80
+
+[node name="ScenarioPickerTexture" type="TextureRect" parent="ScenarioInnerMargin"]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("2_mnc21")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScenarioInnerMargin"]
+layout_mode = 2
+theme_override_constants/margin_left = 280
+theme_override_constants/margin_top = 65
+theme_override_constants/margin_bottom = 50
+
+[node name="ScenarioPickerContainer" type="VBoxContainer" parent="ScenarioInnerMargin/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/separation = 24
+
+[node name="Title" type="Label" parent="ScenarioInnerMargin/MarginContainer/ScenarioPickerContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "Pick Your Scenario
+"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="ScenarioInnerMargin/MarginContainer/ScenarioPickerContainer"]
+custom_minimum_size = Vector2(0, 290.52)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_default_cursor_shape = 2
+theme = ExtResource("3_3put2")
+follow_focus = true
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 2
+
+[node name="MenuOptions" type="VBoxContainer" parent="ScenarioInnerMargin/MarginContainer/ScenarioPickerContainer/ScrollContainer"]
+custom_minimum_size = Vector2(0, 292.475)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 1

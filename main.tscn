@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://dun201w3xi51e"]
+[gd_scene load_steps=6 format=3 uid="uid://dun201w3xi51e"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_6mfir"]
-[ext_resource type="PackedScene" uid="uid://n6fafnnb4wnw" path="res://HUD/Menus/MainMenu.tscn" id="1_i07yv"]
-[ext_resource type="Texture2D" uid="uid://r4lc4cne231y" path="res://assets/HUD/bg_game.png" id="2_5geyp"]
+[ext_resource type="PackedScene" uid="uid://n6fafnnb4wnw" path="res://hud/menus/main_menu/main_menu.tscn" id="1_i07yv"]
+[ext_resource type="Texture2D" uid="uid://r4lc4cne231y" path="res://assets/hud/bg_game.png" id="2_720g6"]
 [ext_resource type="PackedScene" uid="uid://dxxssme6qvrri" path="res://game/renderer/game_renderer.tscn" id="4_dlmdc"]
+[ext_resource type="Script" path="res://ApiLauncher.cs" id="5_jxr7q"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_6mfir")
@@ -14,11 +15,17 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_5geyp")
+texture = ExtResource("2_720g6")
 
 [node name="MainMenu" parent="." instance=ExtResource("1_i07yv")]
 
 [node name="GameRenderer" parent="." instance=ExtResource("4_dlmdc")]
 
+[node name="ApiLauncher" type="Node" parent="."]
+script = ExtResource("5_jxr7q")
+
+[connection signal="guide_data" from="MainMenu" to="GameRenderer" method="_on_main_menu_guide_data"]
 [connection signal="map_chosen" from="MainMenu" to="." method="_on_main_menu_map_chosen"]
 [connection signal="render_stop" from="GameRenderer" to="." method="_on_game_renderer_render_stop"]
+[connection signal="ConsoleOutput" from="ApiLauncher" to="." method="_on_api_launcher_console_output"]
+[connection signal="ConsoleOutput" from="ApiLauncher" to="GameRenderer" method="_on_api_launcher_console_output"]

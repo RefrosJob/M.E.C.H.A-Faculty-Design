@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://c8xi0xsm6krfk"]
+
+[ext_resource type="Script" path="res://hud/ui/buttons/guide_tab_button/guide_tab_button.gd" id="1_8evt1"]
+
+[node name="GuideTabButton" type="Button"]
+script = ExtResource("1_8evt1")
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]

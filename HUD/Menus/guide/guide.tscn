@@ -1,0 +1,73 @@
+[gd_scene load_steps=5 format=3 uid="uid://c78ryd868hg34"]
+
+[ext_resource type="Script" path="res://hud/menus/guide/guide.gd" id="1_m3fq5"]
+[ext_resource type="Texture2D" uid="uid://dmai4ci0vf5g2" path="res://assets/hud/hud_display.png" id="1_p32ft"]
+[ext_resource type="Theme" uid="uid://cllpbj45gwxec" path="res://hud/themes/MainMenu/main_menu.tres" id="2_n77ih"]
+[ext_resource type="PackedScene" uid="uid://uud8ccvy7g16" path="res://maps/map_01/guide/guide.tscn" id="4_cotwd"]
+
+[node name="Guide" type="MarginContainer"]
+clip_contents = true
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/margin_left = -5
+theme_override_constants/margin_top = -35
+theme_override_constants/margin_bottom = -20
+script = ExtResource("1_m3fq5")
+
+[node name="MenuTexture" type="TextureRect" parent="."]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("1_p32ft")
+expand_mode = 3
+
+[node name="MenuOptionsMargin" type="MarginContainer" parent="."]
+clip_contents = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 75
+theme_override_constants/margin_top = 95
+theme_override_constants/margin_right = 75
+theme_override_constants/margin_bottom = 110
+
+[node name="GuideVBoxContainer" type="VBoxContainer" parent="MenuOptionsMargin"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="MenuOptionsMargin/GuideVBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.815686, 0, 1)
+theme_override_font_sizes/font_size = 20
+text = "Guide"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MenuOptionsMargin/GuideVBoxContainer"]
+custom_minimum_size = Vector2(120, 150)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MenuOptionsMargin/GuideVBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(179.295, 0)
+layout_mode = 2
+mouse_filter = 2
+theme = ExtResource("2_n77ih")
+
+[node name="GuideOptions" type="VBoxContainer" parent="MenuOptionsMargin/GuideVBoxContainer/HBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VSeparator" type="VSeparator" parent="MenuOptionsMargin/GuideVBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(10.3, 0)
+layout_mode = 2
+theme = ExtResource("2_n77ih")
+
+[node name="GuideContainer" type="MarginContainer" parent="MenuOptionsMargin/GuideVBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_top = -50
+
+[node name="GuideBase" parent="MenuOptionsMargin/GuideVBoxContainer/HBoxContainer/GuideContainer" instance=ExtResource("4_cotwd")]
+layout_mode = 2
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
